@@ -115,14 +115,16 @@
 
     let intro = true;
     let muted = false;
+    let trocando = false;
 
-    // Quando vídeo 1 terminar, crossfade direto para vídeo 2
-    player1.on('ended', function() {
+    function fazerTroca() {
+      if (trocando) return;
+      trocando = true;
       intro = false;
       audioBtn.classList.add('sem-funcao');
       audioBtn.classList.remove('ativo');
 
-      // Revela wrap2 e some wrap1 ao mesmo tempo (crossfade)
+      // Crossfade direto para vídeo 2
       wrap2.classList.remove('oculto');
       setTimeout(() => {
         wrap1.classList.add('oculto');
@@ -130,7 +132,19 @@
           wrap1.style.display = 'none';
         }, 2000);
       }, 50);
+    }
+
+    // Antecipa a troca 1.5s antes do fim para evitar a tela de encerramento do Vimeo
+    player1.on('timeupdate', function(data) {
+      player1.getDuration().then(function(duracao) {
+        if (!trocando && duracao - data.seconds <= 1.5) {
+          fazerTroca();
+        }
+      });
     });
+
+    // Fallback: garante a troca caso o timeupdate não pegue
+    player1.on('ended', fazerTroca);
 
     // Botão de áudio — só funciona no vídeo 1
     audioBtn.addEventListener('click', () => {
