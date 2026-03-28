@@ -20,7 +20,7 @@
       overflow: hidden;
       z-index: 0;
       opacity: 1;
-      transition: opacity 1s ease;
+      transition: opacity 2s ease;
     }
 
     .video-wrap.oculto {
@@ -39,6 +39,16 @@
       transform: translate(-50%, -50%);
       border: none;
       pointer-events: none;
+    }
+
+    #overlay {
+      position: fixed;
+      inset: 0;
+      background: #000;
+      z-index: 5;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 1.5s ease;
     }
 
     #audio-btn {
@@ -69,6 +79,8 @@
   </style>
 </head>
 <body>
+
+  <div id="overlay"></div>
 
   <!-- VÍDEO 1 — INTRO -->
   <div id="wrap1" class="video-wrap">
@@ -107,14 +119,20 @@
     // Quando vídeo 1 terminar, troca para vídeo 2
     player1.on('ended', function() {
       intro = false;
-      wrap1.classList.add('oculto');
+      const overlay = document.getElementById('overlay');
+      // Fade to black
+      overlay.style.opacity = '1';
+      audioBtn.classList.add('sem-funcao');
+      audioBtn.classList.remove('ativo');
       setTimeout(() => {
         wrap1.style.display = 'none';
         wrap2.classList.remove('oculto');
         player2.play();
-      }, 1000);
-      audioBtn.classList.add('sem-funcao');
-      audioBtn.classList.remove('ativo');
+        // Fade from black
+        setTimeout(() => {
+          overlay.style.opacity = '0';
+        }, 500);
+      }, 1800);
     });
 
     // Botão de áudio — só funciona no vídeo 1
