@@ -14,14 +14,21 @@
       background: #000;
     }
 
-    #video-wrap {
+    .video-wrap {
       position: fixed;
       inset: 0;
       overflow: hidden;
       z-index: 0;
+      opacity: 1;
+      transition: opacity 1s ease;
     }
 
-    #player {
+    .video-wrap.oculto {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    iframe {
       position: absolute;
       top: 50%;
       left: 50%;
@@ -51,7 +58,7 @@
 
     #audio-btn:hover { opacity: 1; }
     #audio-btn.ativo { opacity: 1; }
-    #audio-btn.sem-funcao { pointer-events: none; }
+    #audio-btn.sem-funcao { pointer-events: none; opacity: 0.3; }
     #audio-btn:focus { outline: none; }
 
     #audio-btn img {
@@ -63,10 +70,19 @@
 </head>
 <body>
 
-  <div id="video-wrap">
-    <iframe
-      id="player"
-      src="https://player.vimeo.com/video/1177984857?autoplay=1&muted=0&controls=0&title=0&byline=0&portrait=0&badge=0&dnt=1"
+  <!-- VÍDEO 1 — INTRO -->
+  <div id="wrap1" class="video-wrap">
+    <iframe id="player1"
+      src="https://player.vimeo.com/video/1177984857?autoplay=1&muted=0&controls=0&title=0&byline=0&portrait=0&badge=0&dnt=1&api=1"
+      allow="autoplay; fullscreen"
+      allowfullscreen>
+    </iframe>
+  </div>
+
+  <!-- VÍDEO 2 — LOOP (carregado mas pausado) -->
+  <div id="wrap2" class="video-wrap oculto">
+    <iframe id="player2"
+      src="https://player.vimeo.com/video/1178003266?autoplay=0&loop=1&muted=1&controls=0&title=0&byline=0&portrait=0&badge=0&dnt=1&background=1&api=1"
       allow="autoplay; fullscreen"
       allowfullscreen>
     </iframe>
@@ -76,45 +92,36 @@
     <img src="imagens/botao-audio.png" alt="Som">
   </button>
 
+  <script src="https://player.vimeo.com/api/player.js"></script>
   <script>
-    const player   = document.getElementById('player');
     const audioBtn = document.getElementById('audio-btn');
-    let muted = false;
+    const wrap1    = document.getElementById('wrap1');
+    const wrap2    = document.getElementById('wrap2');
+
+    const player1 = new Vimeo.Player('player1');
+    const player2 = new Vimeo.Player('player2');
+
     let intro = true;
+    let muted = false;
 
-    function sendVimeo(method, value) {
-      player.contentWindow.postMessage(
-        JSON.stringify({ method, value }),
-        'https://player.vimeo.com'
-      );
-    }
-
-    function iniciarVideo2() {
+    // Quando vídeo 1 terminar, troca para vídeo 2
+    player1.on('ended', function() {
       intro = false;
-      player.src = "https://player.vimeo.com/video/1178003266?autoplay=1&loop=1&muted=1&controls=0&title=0&byline=0&portrait=0&badge=0&dnt=1&background=1";
-      // Botão continua visível mas sem função
+      wrap1.classList.add('oculto');
+      setTimeout(() => {
+        wrap1.style.display = 'none';
+        wrap2.classList.remove('oculto');
+        player2.play();
+      }, 1000);
       audioBtn.classList.add('sem-funcao');
       audioBtn.classList.remove('ativo');
-    }
-
-    window.addEventListener('message', function(e) {
-      if (e.origin !== 'https://player.vimeo.com') return;
-      try {
-        const data = JSON.parse(e.data);
-        if (data.event === 'finish' && intro) {
-          iniciarVideo2();
-        }
-      } catch(_) {}
     });
 
-    player.addEventListener('load', () => {
-      sendVimeo('addEventListener', 'finish');
-    });
-
+    // Botão de áudio — só funciona no vídeo 1
     audioBtn.addEventListener('click', () => {
       if (!intro) return;
       muted = !muted;
-      sendVimeo('setVolume', muted ? 0 : 1);
+      player1.setVolume(muted ? 0 : 1);
       audioBtn.classList.toggle('ativo', !muted);
     });
   </script>
