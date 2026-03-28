@@ -91,10 +91,10 @@
     </iframe>
   </div>
 
-  <!-- VÍDEO 2 — LOOP (carregado mas pausado) -->
+  <!-- VÍDEO 2 — LOOP (rodando em background desde o início, invisível) -->
   <div id="wrap2" class="video-wrap oculto">
     <iframe id="player2"
-      src="https://player.vimeo.com/video/1178003266?autoplay=0&loop=1&muted=1&controls=0&title=0&byline=0&portrait=0&badge=0&dnt=1&background=1&api=1"
+      src="https://player.vimeo.com/video/1178003266?autoplay=1&loop=1&muted=1&controls=0&title=0&byline=0&portrait=0&badge=0&dnt=1&background=1&api=1"
       allow="autoplay; fullscreen"
       allowfullscreen>
     </iframe>
@@ -115,23 +115,6 @@
 
     let intro = true;
     let muted = false;
-    let video2Iniciado = false;
-
-    // Pré-inicia o vídeo 2 com antecedência para garantir buffering
-    player1.on('timeupdate', function(data) {
-      if (!video2Iniciado) {
-        player1.getDuration().then(function(duracao) {
-          const restante = duracao - data.seconds;
-          if (restante <= 25) {
-            video2Iniciado = true;
-            // Garante que começa do início e deixa rodar no background
-            player2.setCurrentTime(0).then(() => {
-              player2.play();
-            });
-          }
-        });
-      }
-    });
 
     // Quando vídeo 1 terminar, crossfade direto para vídeo 2
     player1.on('ended', function() {
@@ -139,16 +122,13 @@
       audioBtn.classList.add('sem-funcao');
       audioBtn.classList.remove('ativo');
 
-      // Garante que vídeo 2 está rodando
-      player2.play();
-
       // Revela wrap2 e some wrap1 ao mesmo tempo (crossfade)
       wrap2.classList.remove('oculto');
       setTimeout(() => {
         wrap1.classList.add('oculto');
         setTimeout(() => {
           wrap1.style.display = 'none';
-        }, 2000); // remove do DOM após o fade
+        }, 2000);
       }, 50);
     });
 
