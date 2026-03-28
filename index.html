@@ -102,6 +102,8 @@
       flex-direction: column;
       gap: 10px;
       align-items: center;
+      opacity: 0;
+      transition: opacity 2s ease;
     }
 
     .btn-lateral {
@@ -191,6 +193,7 @@
       wrap2.classList.remove('oculto');
       setTimeout(() => {
         wrap1.classList.add('oculto');
+        document.getElementById('botoes-direita').style.opacity = '1';
         setTimeout(() => {
           wrap1.style.display = 'none';
         }, 2000);
