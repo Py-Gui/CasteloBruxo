@@ -122,7 +122,7 @@
       if (!video2Iniciado) {
         player1.getDuration().then(function(duracao) {
           const restante = duracao - data.seconds;
-          if (restante <= 15) {
+          if (restante <= 18) {
             video2Iniciado = true;
             // Garante que começa do início e deixa rodar no background
             player2.setCurrentTime(0).then(() => {
