@@ -92,6 +92,37 @@
       height: 100%;
       object-fit: contain;
     }
+
+    #botoes-direita {
+      position: fixed;
+      right: 12px;
+      top: 12px;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .btn-lateral {
+      width: 52px;
+      height: 52px;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      padding: 0;
+      opacity: 0.7;
+      transition: opacity 0.3s;
+    }
+
+    .btn-lateral:hover { opacity: 1; }
+    .btn-lateral:focus { outline: none; }
+
+    .btn-lateral img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
   </style>
 </head>
 <body>
@@ -119,6 +150,12 @@
   <button id="audio-btn" title="Ativar/desativar som">
     <img src="imagens/botao-audio.png" alt="Som">
   </button>
+
+  <div id="botoes-direita">
+    <button class="btn-lateral" id="btn-regras" title="Regras">
+      <img src="imagens/botao-regras.png" alt="Regras">
+    </button>
+  </div>
 
   <script src="https://player.vimeo.com/api/player.js"></script>
   <script>
