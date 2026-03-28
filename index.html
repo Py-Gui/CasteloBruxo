@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Castelo Bruxo</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #000;
+    }
+
+    #video-wrap {
+      position: fixed;
+      inset: 0;
+      overflow: hidden;
+      z-index: 0;
+    }
+
+    #vimeo-player {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 120vw;
+      height: 67.5vw;
+      min-height: 120vh;
+      min-width: 213.33vh;
+      transform: translate(-50%, -50%);
+      border: none;
+      pointer-events: none;
+    }
+
+    #audio-btn {
+      position: fixed;
+      bottom: 0px;
+      right: -10px;
+      z-index: 10;
+      width: 52px;
+      height: 52px;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      padding: 0;
+      opacity: 0.5;
+      transition: opacity 0.3s;
+    }
+
+    #audio-btn:hover { opacity: 1; }
+    #audio-btn.ativo { opacity: 1; }
+
+    #audio-btn img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="video-wrap">
+    <iframe
+      id="vimeo-player"
+      src="https://player.vimeo.com/video/1177984857?autoplay=1&loop=1&muted=1&controls=0&title=0&byline=0&portrait=0&badge=0&dnt=1&background=1"
+      allow="autoplay; fullscreen"
+      allowfullscreen>
+    </iframe>
+  </div>
+
+  <button id="audio-btn" title="Ativar/desativar som">
+    <img src="imagens/botao-audio.png" alt="Som">
+  </button>
+
+  <script>
+    const audioBtn = document.getElementById('audio-btn');
+    const iframe   = document.getElementById('vimeo-player');
+    let muted = true;
+
+    function sendVimeo(method, value) {
+      iframe.contentWindow.postMessage(
+        JSON.stringify({ method, value }),
+        'https://player.vimeo.com'
+      );
+    }
+
+    audioBtn.addEventListener('click', () => {
+      muted = !muted;
+      sendVimeo('setVolume', muted ? 0 : 1);
+      audioBtn.classList.toggle('ativo', !muted);
+    });
+  </script>
+</body>
+</html>
