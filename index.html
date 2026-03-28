@@ -115,6 +115,21 @@
 
     let intro = true;
     let muted = false;
+    let video2Iniciado = false;
+
+    // Pré-inicia o vídeo 2 alguns segundos antes do vídeo 1 terminar
+    player1.on('timeupdate', function(data) {
+      if (!video2Iniciado) {
+        player1.getDuration().then(function(duracao) {
+          const restante = duracao - data.seconds;
+          if (restante <= 4) {
+            video2Iniciado = true;
+            // Inicia vídeo 2 atrás, ainda invisível
+            player2.play();
+          }
+        });
+      }
+    });
 
     // Quando vídeo 1 terminar, troca para vídeo 2
     player1.on('ended', function() {
@@ -127,12 +142,13 @@
       setTimeout(() => {
         wrap1.style.display = 'none';
         wrap2.classList.remove('oculto');
+        // Garante que está tocando caso o pré-início não tenha funcionado
         player2.play();
         // Fade from black
         setTimeout(() => {
           overlay.style.opacity = '0';
-        }, 500);
-      }, 1800);
+        }, 300);
+      }, 1200);
     });
 
     // Botão de áudio — só funciona no vídeo 1
