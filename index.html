@@ -117,38 +117,39 @@
     let muted = false;
     let video2Iniciado = false;
 
-    // Pré-inicia o vídeo 2 alguns segundos antes do vídeo 1 terminar
+    // Pré-inicia o vídeo 2 com antecedência para garantir buffering
     player1.on('timeupdate', function(data) {
       if (!video2Iniciado) {
         player1.getDuration().then(function(duracao) {
           const restante = duracao - data.seconds;
-          if (restante <= 4) {
+          if (restante <= 8) {
             video2Iniciado = true;
-            // Inicia vídeo 2 atrás, ainda invisível
-            player2.play();
+            // Garante que começa do início e deixa rodar no background
+            player2.setCurrentTime(0).then(() => {
+              player2.play();
+            });
           }
         });
       }
     });
 
-    // Quando vídeo 1 terminar, troca para vídeo 2
+    // Quando vídeo 1 terminar, crossfade direto para vídeo 2
     player1.on('ended', function() {
       intro = false;
-      const overlay = document.getElementById('overlay');
-      // Fade to black
-      overlay.style.opacity = '1';
       audioBtn.classList.add('sem-funcao');
       audioBtn.classList.remove('ativo');
+
+      // Garante que vídeo 2 está rodando
+      player2.play();
+
+      // Revela wrap2 e some wrap1 ao mesmo tempo (crossfade)
+      wrap2.classList.remove('oculto');
       setTimeout(() => {
-        wrap1.style.display = 'none';
-        wrap2.classList.remove('oculto');
-        // Garante que está tocando caso o pré-início não tenha funcionado
-        player2.play();
-        // Fade from black
+        wrap1.classList.add('oculto');
         setTimeout(() => {
-          overlay.style.opacity = '0';
-        }, 300);
-      }, 1200);
+          wrap1.style.display = 'none';
+        }, 2000); // remove do DOM após o fade
+      }, 50);
     });
 
     // Botão de áudio — só funciona no vídeo 1
