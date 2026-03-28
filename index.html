@@ -36,7 +36,7 @@
 
     #audio-btn {
       position: fixed;
-      bottom: -20px;
+      bottom: 4px;
       right: -10px;
       z-index: 10;
       width: 52px;
@@ -45,14 +45,13 @@
       background: transparent;
       cursor: pointer;
       padding: 0;
-      opacity: 0;
-      pointer-events: none;
+      opacity: 0.5;
       transition: opacity 0.3s;
     }
 
-    #audio-btn.visivel { opacity: 0.5; pointer-events: all; }
-    #audio-btn.visivel:hover { opacity: 1; }
+    #audio-btn:hover { opacity: 1; }
     #audio-btn.ativo { opacity: 1; }
+    #audio-btn.sem-funcao { pointer-events: none; }
     #audio-btn:focus { outline: none; }
 
     #audio-btn img {
@@ -80,7 +79,7 @@
   <script>
     const player   = document.getElementById('player');
     const audioBtn = document.getElementById('audio-btn');
-    let muted = true;
+    let muted = false;
     let intro = true;
 
     function sendVimeo(method, value) {
@@ -92,14 +91,12 @@
 
     function iniciarVideo2() {
       intro = false;
-      // Troca o src para o vídeo 2 em loop, mudo
       player.src = "https://player.vimeo.com/video/1178003266?autoplay=1&loop=1&muted=1&controls=0&title=0&byline=0&portrait=0&badge=0&dnt=1&background=1";
-      muted = true;
-      audioBtn.classList.add('visivel');
+      // Botão continua visível mas sem função
+      audioBtn.classList.add('sem-funcao');
       audioBtn.classList.remove('ativo');
     }
 
-    // Escuta eventos do Vimeo
     window.addEventListener('message', function(e) {
       if (e.origin !== 'https://player.vimeo.com') return;
       try {
@@ -110,13 +107,12 @@
       } catch(_) {}
     });
 
-    // Registra evento de fim
     player.addEventListener('load', () => {
       sendVimeo('addEventListener', 'finish');
     });
 
-    // Botão de áudio
     audioBtn.addEventListener('click', () => {
+      if (!intro) return;
       muted = !muted;
       sendVimeo('setVolume', muted ? 0 : 1);
       audioBtn.classList.toggle('ativo', !muted);
