@@ -14,20 +14,14 @@
       background: #000;
     }
 
-    .video-wrap {
+    #video-wrap {
       position: fixed;
       inset: 0;
       overflow: hidden;
       z-index: 0;
-      transition: opacity 1s ease;
     }
 
-    .video-wrap.oculto {
-      opacity: 0;
-      pointer-events: none;
-    }
-
-    .video-wrap iframe {
+    #player {
       position: absolute;
       top: 50%;
       left: 50%;
@@ -42,7 +36,7 @@
 
     #audio-btn {
       position: fixed;
-      bottom: -10px;
+      bottom: -20px;
       right: -10px;
       z-index: 10;
       width: 52px;
@@ -70,21 +64,10 @@
 </head>
 <body>
 
-  <!-- VÍDEO 1 — INTRO -->
-  <div id="wrap1" class="video-wrap">
+  <div id="video-wrap">
     <iframe
-      id="player1"
-      src="https://player.vimeo.com/video/1177984857?autoplay=1&muted=0&controls=0&title=0&byline=0&portrait=0&badge=0&dnt=1&background=0"
-      allow="autoplay; fullscreen"
-      allowfullscreen>
-    </iframe>
-  </div>
-
-  <!-- VÍDEO 2 — LOOP -->
-  <div id="wrap2" class="video-wrap oculto">
-    <iframe
-      id="player2"
-      src="https://player.vimeo.com/video/1178003266?autoplay=0&loop=1&muted=1&controls=0&title=0&byline=0&portrait=0&badge=0&dnt=1&background=1"
+      id="player"
+      src="https://player.vimeo.com/video/1177984857?autoplay=1&muted=0&controls=0&title=0&byline=0&portrait=0&badge=0&dnt=1"
       allow="autoplay; fullscreen"
       allowfullscreen>
     </iframe>
@@ -95,32 +78,25 @@
   </button>
 
   <script>
-    const wrap1    = document.getElementById('wrap1');
-    const wrap2    = document.getElementById('wrap2');
-    const player1  = document.getElementById('player1');
-    const player2  = document.getElementById('player2');
+    const player   = document.getElementById('player');
     const audioBtn = document.getElementById('audio-btn');
     let muted = true;
+    let intro = true;
 
-    function sendVimeo(iframe, method, value) {
-      iframe.contentWindow.postMessage(
+    function sendVimeo(method, value) {
+      player.contentWindow.postMessage(
         JSON.stringify({ method, value }),
         'https://player.vimeo.com'
       );
     }
 
     function iniciarVideo2() {
-      // Fade out vídeo 1
-      wrap1.classList.add('oculto');
-
-      // Inicia vídeo 2
-      setTimeout(() => {
-        wrap1.style.display = 'none';
-        wrap2.classList.remove('oculto');
-        sendVimeo(player2, 'play', null);
-        // Mostra botão de áudio
-        audioBtn.classList.add('visivel');
-      }, 1000);
+      intro = false;
+      // Troca o src para o vídeo 2 em loop, mudo
+      player.src = "https://player.vimeo.com/video/1178003266?autoplay=1&loop=1&muted=1&controls=0&title=0&byline=0&portrait=0&badge=0&dnt=1&background=1";
+      muted = true;
+      audioBtn.classList.add('visivel');
+      audioBtn.classList.remove('ativo');
     }
 
     // Escuta eventos do Vimeo
@@ -128,21 +104,21 @@
       if (e.origin !== 'https://player.vimeo.com') return;
       try {
         const data = JSON.parse(e.data);
-        if (data.event === 'finish') {
+        if (data.event === 'finish' && intro) {
           iniciarVideo2();
         }
       } catch(_) {}
     });
 
-    // Registra evento de fim no player 1
-    player1.addEventListener('load', () => {
-      sendVimeo(player1, 'addEventListener', 'finish');
+    // Registra evento de fim
+    player.addEventListener('load', () => {
+      sendVimeo('addEventListener', 'finish');
     });
 
-    // Botão de áudio controla o vídeo 2
+    // Botão de áudio
     audioBtn.addEventListener('click', () => {
       muted = !muted;
-      sendVimeo(player2, 'setVolume', muted ? 0 : 1);
+      sendVimeo('setVolume', muted ? 0 : 1);
       audioBtn.classList.toggle('ativo', !muted);
     });
   </script>
