@@ -171,7 +171,26 @@
       100% { filter: drop-shadow(0 0 8px #4a90d9) drop-shadow(0 0 20px #1a5fa8) drop-shadow(0 0 40px #0d3b6e); }
     }
 
-    #botoes-direita {
+    #brasao-sonserina {
+      position: fixed;
+      top: 420px;
+      left: 20px;
+      z-index: 10;
+      opacity: 0;
+      transition: opacity 2s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    #brasao-sonserina.visivel {
+      opacity: 1;
+    }
+
+    #brasao-sonserina img {
+      width: 220px;
+      height: auto;
+    }
       position: fixed;
       right: -15px;
       top: 12px;
@@ -240,6 +259,10 @@
     <p>Vencedora da Taça das Casas</p>
   </div>
 
+  <div id="brasao-sonserina">
+    <img src="imagens/brasao-sonserina.png" alt="Brasão Sonserina">
+  </div>
+
   <div id="botoes-direita">
     <button class="btn-lateral" id="btn-regras" title="Regras">
       <img src="imagens/botao-regras.png" alt="Regras">
@@ -281,6 +304,7 @@
         document.getElementById('botoes-direita').style.opacity = '1';
         document.getElementById('btn-servidores').style.opacity = '0.5';
         document.getElementById('brasao-corvinal').classList.add('visivel');
+        document.getElementById('brasao-sonserina').classList.add('visivel');
         setTimeout(() => {
           wrap1.style.display = 'none';
         }, 2000);
