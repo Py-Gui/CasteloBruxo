@@ -117,7 +117,39 @@
       object-fit: fill;
     }
 
-    #botoes-direita {
+    #brasao-corvinal {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 10;
+      opacity: 0;
+      transition: opacity 2s ease;
+      animation: flutuar 3s ease-in-out infinite;
+      filter: drop-shadow(0 0 10px #4a90d9) drop-shadow(0 0 25px #1a5fa8) drop-shadow(0 0 50px #0d3b6e);
+    }
+
+    #brasao-corvinal.visivel {
+      opacity: 1;
+    }
+
+    #brasao-corvinal img {
+      width: 120px;
+      height: auto;
+      animation: brilho 2.5s ease-in-out infinite;
+    }
+
+    @keyframes flutuar {
+      0%   { transform: translateX(-50%) translateY(0px); }
+      50%  { transform: translateX(-50%) translateY(-12px); }
+      100% { transform: translateX(-50%) translateY(0px); }
+    }
+
+    @keyframes brilho {
+      0%   { filter: drop-shadow(0 0 8px #4a90d9) drop-shadow(0 0 20px #1a5fa8) drop-shadow(0 0 40px #0d3b6e); }
+      50%  { filter: drop-shadow(0 0 18px #7ab8ff) drop-shadow(0 0 40px #3a80d9) drop-shadow(0 0 80px #1a5fa8); }
+      100% { filter: drop-shadow(0 0 8px #4a90d9) drop-shadow(0 0 20px #1a5fa8) drop-shadow(0 0 40px #0d3b6e); }
+    }
       position: fixed;
       right: -15px;
       top: 12px;
@@ -182,6 +214,10 @@
     <img src="imagens/botao-servidores.png" alt="Servidores">
   </button>
 
+  <div id="brasao-corvinal">
+    <img src="imagens/brasao-corvinal.png" alt="Brasão Corvinal">
+  </div>
+
   <div id="botoes-direita">
     <button class="btn-lateral" id="btn-regras" title="Regras">
       <img src="imagens/botao-regras.png" alt="Regras">
@@ -223,6 +259,7 @@
         wrap1.classList.add('oculto');
         document.getElementById('botoes-direita').style.opacity = '1';
         document.getElementById('btn-servidores').style.opacity = '0.5';
+        document.getElementById('brasao-corvinal').classList.add('visivel');
         setTimeout(() => {
           wrap1.style.display = 'none';
         }, 2000);
