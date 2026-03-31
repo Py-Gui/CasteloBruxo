@@ -145,40 +145,23 @@
       animation: flutuar 3s ease-in-out infinite;
     }
 
-    /* BRASÃO SONSERINA */
-    #brasao-sonserina {
+    /* BRASÕES SECUNDÁRIOS — linha centralizada */
+    #brasoes-linha {
       position: fixed;
-      top: 420px;
-      left: 20px;
-      z-index: 10;
-      opacity: 0;
-      transition: opacity 2s ease;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-    #brasao-sonserina.visivel { opacity: 1; }
-    #brasao-sonserina img {
-      width: 220px;
-      height: auto;
-    }
-
-    /* BRASÃO GRIFINÓRIA */
-    #brasao-grifinoria {
-      position: fixed;
-      top: 420px;
+      bottom: 20px;
       left: 50%;
       transform: translateX(-50%);
       z-index: 10;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 10px;
       opacity: 0;
       transition: opacity 2s ease;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
     }
-    #brasao-grifinoria.visivel { opacity: 1; }
-    #brasao-grifinoria img {
-      width: 220px;
+    #brasoes-linha.visivel { opacity: 1; }
+    #brasoes-linha img {
+      width: 280px;
       height: auto;
     }
 
@@ -257,12 +240,10 @@
     <p>Vencedora da Taça das Casas</p>
   </div>
 
-  <div id="brasao-sonserina">
+  <div id="brasoes-linha">
     <img src="imagens/brasao-sonserina.png" alt="Brasão Sonserina">
-  </div>
-
-  <div id="brasao-grifinoria">
     <img src="imagens/brasao-grifinoria.png" alt="Brasão Grifinória">
+    <img src="imagens/brasao-lufalufa.png" alt="Brasão Lufa-Lufa">
   </div>
 
   <div id="botoes-direita">
@@ -306,8 +287,7 @@
         document.getElementById('botoes-direita').style.opacity = '1';
         document.getElementById('btn-servidores').style.opacity = '0.5';
         document.getElementById('brasao-corvinal').classList.add('visivel');
-        document.getElementById('brasao-sonserina').classList.add('visivel');
-        document.getElementById('brasao-grifinoria').classList.add('visivel');
+        document.getElementById('brasoes-linha').classList.add('visivel');
         setTimeout(() => {
           wrap1.style.display = 'none';
         }, 2000);
