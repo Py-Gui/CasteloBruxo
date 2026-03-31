@@ -163,6 +163,25 @@
       height: auto;
     }
 
+    /* BRASÃO GRIFINÓRIA */
+    #brasao-grifinoria {
+      position: fixed;
+      top: 420px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 10;
+      opacity: 0;
+      transition: opacity 2s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    #brasao-grifinoria.visivel { opacity: 1; }
+    #brasao-grifinoria img {
+      width: 220px;
+      height: auto;
+    }
+
     /* ANIMAÇÕES */
     @keyframes flutuar {
       0%   { transform: translateY(0px); }
@@ -242,6 +261,10 @@
     <img src="imagens/brasao-sonserina.png" alt="Brasão Sonserina">
   </div>
 
+  <div id="brasao-grifinoria">
+    <img src="imagens/brasao-grifinoria.png" alt="Brasão Grifinória">
+  </div>
+
   <div id="botoes-direita">
     <button class="btn-lateral" id="btn-regras" title="Regras">
       <img src="imagens/botao-regras.png" alt="Regras">
@@ -284,6 +307,7 @@
         document.getElementById('btn-servidores').style.opacity = '0.5';
         document.getElementById('brasao-corvinal').classList.add('visivel');
         document.getElementById('brasao-sonserina').classList.add('visivel');
+        document.getElementById('brasao-grifinoria').classList.add('visivel');
         setTimeout(() => {
           wrap1.style.display = 'none';
         }, 2000);
