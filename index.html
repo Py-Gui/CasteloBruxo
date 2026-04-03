@@ -396,15 +396,12 @@
 
     const player1    = new Vimeo.Player('player1');
     const player2    = new Vimeo.Player('player2');
-    const playerJornal = new Vimeo.Player('player-jornal');
 
     let intro    = true;
-    let muted    = true;
+    let muted    = false;
     let trocando = false;
 
-    audioBtn.classList.remove('ativo');
-
-    // BOTÃO DE ÁUDIO
+    // BOTÃO DE ÁUDIO — primeiro clique muta, segundo desmuta
     audioBtn.addEventListener('click', () => {
       if (!intro) return;
       muted = !muted;
@@ -444,18 +441,23 @@
     player1.on('ended', fazerTroca);
 
     // MODAL JORNAL
-    const modalJornal    = document.getElementById('modal-jornal');
+    const modalJornal     = document.getElementById('modal-jornal');
     const btnFecharJornal = document.getElementById('btn-fechar-jornal');
-    const btnJornal      = document.getElementById('btn-jornal');
+    const btnJornal       = document.getElementById('btn-jornal');
+    let playerJornal      = null;
+
+    window.addEventListener('load', () => {
+      playerJornal = new Vimeo.Player('player-jornal');
+    });
 
     btnJornal.addEventListener('click', () => {
-      playerJornal.setVolume(1);
+      if (playerJornal) playerJornal.setVolume(1);
       modalJornal.classList.add('visivel');
     });
 
     btnFecharJornal.addEventListener('click', () => {
       modalJornal.classList.remove('visivel');
-      playerJornal.setVolume(0);
+      if (playerJornal) playerJornal.setVolume(0);
     });
   </script>
 </body>
