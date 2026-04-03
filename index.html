@@ -329,7 +329,7 @@
   <!-- VÍDEO 1 — INTRO -->
   <div id="wrap1" class="video-wrap">
     <iframe id="player1"
-      src="https://player.vimeo.com/video/1177984857?autoplay=1&muted=0&controls=0&title=0&byline=0&portrait=0&badge=0&dnt=1&api=1"
+      src="https://player.vimeo.com/video/1177984857?autoplay=1&muted=1&controls=0&title=0&byline=0&portrait=0&badge=0&dnt=1&api=1"
       allow="autoplay; fullscreen"
       allowfullscreen>
     </iframe>
@@ -400,11 +400,11 @@
     const player2      = new Vimeo.Player('player2');
     const playerJornal = new Vimeo.Player('player-jornal');
 
-    let intro    = true;
-    let muted    = false;
-    let trocando = false;
+    let intro      = true;
+    let muted      = true;
+    let trocando   = false;
 
-    // ÁUDIO
+    // ÁUDIO — primeiro clique ativa som, segundo muta, e assim por diante
     audioBtn.addEventListener('click', () => {
       if (!intro) return;
       muted = !muted;
