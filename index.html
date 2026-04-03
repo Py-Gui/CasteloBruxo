@@ -358,8 +358,11 @@
     const player2 = new Vimeo.Player('player2');
 
     let intro = true;
-    let muted = false;
+    let muted = true;
     let trocando = false;
+
+    // Garante que o vídeo inicia mutado
+    player1.setVolume(0);
 
     function fazerTroca() {
       if (trocando) return;
@@ -404,7 +407,7 @@
     const btnJornal = document.getElementById('btn-jornal');
 
     btnJornal.addEventListener('click', () => {
-      playerJornalIframe.src = 'https://player.vimeo.com/video/1179951221?autoplay=1&loop=1&muted=1&controls=0&title=0&byline=0&portrait=0&badge=0&dnt=1&background=1';
+      playerJornalIframe.src = 'https://player.vimeo.com/video/1179951221?autoplay=1&loop=1&muted=0&controls=0&title=0&byline=0&portrait=0&badge=0&dnt=1';
       modalJornal.classList.add('visivel');
     });
 
