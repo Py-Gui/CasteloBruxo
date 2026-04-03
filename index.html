@@ -240,7 +240,7 @@
     #modal-jornal {
       position: fixed;
       inset: 0;
-      z-index: 100;
+      z-index: 9998;
       background: #000;
       display: flex;
       align-items: center;
@@ -269,7 +269,7 @@
       position: absolute;
       top: 15px;
       left: 15px;
-      z-index: 110;
+      z-index: 9999;
       width: 44px;
       height: 44px;
       border-radius: 50%;
@@ -451,8 +451,11 @@
     });
 
     btnJornal.addEventListener('click', () => {
-      if (playerJornal) playerJornal.setVolume(1);
+      console.log('botão jornal clicado');
       modalJornal.classList.add('visivel');
+      if (playerJornal) {
+        playerJornal.setVolume(1);
+      }
     });
 
     btnFecharJornal.addEventListener('click', () => {
