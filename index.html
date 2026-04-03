@@ -242,12 +242,16 @@
       inset: 0;
       z-index: 100;
       background: #000;
-      display: none;
+      display: flex;
       align-items: center;
       justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.5s ease;
     }
     #modal-jornal.visivel {
-      display: flex;
+      opacity: 1;
+      pointer-events: auto;
     }
     #modal-jornal iframe {
       position: absolute;
@@ -264,7 +268,7 @@
     #btn-fechar-jornal {
       position: absolute;
       top: 15px;
-      right: 15px;
+      left: 15px;
       z-index: 110;
       width: 44px;
       height: 44px;
@@ -281,9 +285,45 @@
     }
     #btn-fechar-jornal:hover { background: rgba(255,255,255,0.2); }
     #btn-fechar-jornal:focus { outline: none; }
+    /* BLOQUEIO DESKTOP */
+    #bloqueio-desktop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: #000;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 20px;
+      text-align: center;
+      padding: 40px;
+    }
+    #bloqueio-desktop p {
+      color: #c9a84c;
+      font-family: 'HarryPotter', serif;
+      font-size: 28px;
+      letter-spacing: 2px;
+      text-shadow: 0 0 10px #c9a84c88;
+    }
+    #bloqueio-desktop span {
+      color: #ffffff99;
+      font-family: sans-serif;
+      font-size: 14px;
+      letter-spacing: 1px;
+    }
+    @media (min-width: 769px) {
+      #bloqueio-desktop { display: flex; }
+    }
   </style>
 </head>
 <body>
+
+  <div id="bloqueio-desktop">
+    <p>Castelo Bruxo</p>
+    <span>Este site foi feito para dispositivos móveis.</span>
+    <span>Acesse pelo seu celular. 📱</span>
+  </div>
 
   <div id="overlay"></div>
 
@@ -340,9 +380,9 @@
 
   <!-- MODAL JORNAL -->
   <div id="modal-jornal">
-    <button id="btn-fechar-jornal" title="Fechar">✕</button>
+    <button id="btn-fechar-jornal" title="Voltar">&#8592;</button>
     <iframe id="player-jornal"
-      src=""
+      src="https://player.vimeo.com/video/1179951221?autoplay=1&loop=1&muted=1&controls=0&title=0&byline=0&portrait=0&badge=0&dnt=1"
       allow="autoplay; fullscreen"
       allowfullscreen>
     </iframe>
@@ -405,15 +445,16 @@
     const playerJornalIframe = document.getElementById('player-jornal');
     const btnFecharJornal = document.getElementById('btn-fechar-jornal');
     const btnJornal = document.getElementById('btn-jornal');
+    const playerJornal = new Vimeo.Player('player-jornal');
 
     btnJornal.addEventListener('click', () => {
-      playerJornalIframe.src = 'https://player.vimeo.com/video/1179951221?autoplay=1&loop=1&muted=0&controls=0&title=0&byline=0&portrait=0&badge=0&dnt=1';
+      playerJornal.setVolume(1);
       modalJornal.classList.add('visivel');
     });
 
     btnFecharJornal.addEventListener('click', () => {
       modalJornal.classList.remove('visivel');
-      playerJornalIframe.src = '';
+      playerJornal.setVolume(0);
     });
   </script>
 </body>
