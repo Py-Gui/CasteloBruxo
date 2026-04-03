@@ -298,6 +298,7 @@
       gap: 10px;
       align-items: center;
       opacity: 0;
+      pointer-events: none;
       transition: opacity 2s ease;
     }
     .btn-lateral {
@@ -525,8 +526,15 @@
     audioBtn.addEventListener('click', () => {
       if (!intro) return;
       muted = !muted;
-      player1.setVolume(muted ? 0 : 1);
-      audioBtn.classList.toggle('ativo', !muted);
+      if (muted) {
+        player1.setVolume(0).then(() => {
+          audioBtn.classList.remove('ativo');
+        });
+      } else {
+        player1.setVolume(1).then(() => {
+          audioBtn.classList.add('ativo');
+        });
+      }
     });
 
     // TROCA VÍDEO 1 → VÍDEO 2
@@ -539,7 +547,9 @@
       wrap2.classList.remove('oculto');
       setTimeout(() => {
         wrap1.classList.add('oculto');
-        document.getElementById('botoes-direita').style.opacity = '1';
+        const botoesDireita = document.getElementById('botoes-direita');
+        botoesDireita.style.opacity = '1';
+        botoesDireita.style.pointerEvents = 'auto';
         document.getElementById('btn-servidores').style.opacity = '0.5';
         document.getElementById('brasao-corvinal').classList.add('visivel');
         document.getElementById('brasoes-linha').classList.add('visivel');
