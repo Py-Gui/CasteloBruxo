@@ -21,6 +21,77 @@
       background: #000;
     }
 
+    .video-wrap {
+      position: fixed;
+      inset: 0;
+      overflow: hidden;
+      z-index: 0;
+      opacity: 1;
+      transition: opacity 2s ease;
+    }
+
+    .video-wrap.oculto {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    iframe {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 120vw;
+      height: 67.5vw;
+      min-height: 120vh;
+      min-width: 213.33vh;
+      transform: translate(-50%, -50%);
+      border: none;
+      pointer-events: none;
+    }
+
+    #wrap2 iframe {
+      width: 120vw;
+      height: 67.5vw;
+      min-height: 120vh;
+      min-width: 213.33vh;
+    }
+
+    @media (max-width: 768px) {
+      #wrap2 iframe {
+        width: 92vw;
+        height: 67.5vw;
+        min-height: 92vh;
+        min-width: 213.33vh;
+      }
+      #brasao-corvinal img {
+        width: 220px;
+      }
+      #brasoes-linha {
+        bottom: 180px !important;
+        align-items: flex-end;
+      }
+      #brasoes-linha img {
+        width: 120px !important;
+      }
+      #brasoes-linha img#brasao-sonserina {
+        width: 200px !important;
+        position: relative;
+        top: -30px;
+        right: -60px;
+      }
+      #brasoes-linha img#brasao-grifinoria {
+        width: 180px !important;
+        position: relative;
+        top: 70px;
+        right: -40px;
+      }
+      #brasoes-linha img#brasao-lufalufa {
+        width: 120px !important;
+        position: relative;
+        top: 200px;
+        right: 210px;
+      }
+    }
+
     /* BLOQUEIO DESKTOP */
     #bloqueio-desktop {
       display: none;
@@ -52,20 +123,24 @@
       #bloqueio-desktop { display: flex; }
     }
 
-    /* VÍDEOS */
-    .video-wrap {
+    /* MODAL JORNAL */
+    #modal-jornal {
       position: fixed;
       inset: 0;
-      overflow: hidden;
-      z-index: 0;
-      opacity: 1;
-      transition: opacity 2s ease;
-    }
-    .video-wrap.oculto {
+      z-index: 200;
+      background: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       opacity: 0;
       pointer-events: none;
+      transition: opacity 0.5s ease;
     }
-    .video-wrap iframe {
+    #modal-jornal.visivel {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    #modal-jornal iframe {
       position: absolute;
       top: 50%;
       left: 50%;
@@ -75,10 +150,29 @@
       min-width: 213.33vh;
       transform: translate(-50%, -50%);
       border: none;
-      pointer-events: none;
+      pointer-events: auto;
     }
+    #btn-fechar-jornal {
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      z-index: 201;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      border: 2px solid rgba(255,255,255,0.6);
+      background: rgba(0,0,0,0.6);
+      color: #fff;
+      font-size: 22px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.3s;
+    }
+    #btn-fechar-jornal:hover { background: rgba(255,255,255,0.2); }
+    #btn-fechar-jornal:focus { outline: none; }
 
-    /* OVERLAY */
     #overlay {
       position: fixed;
       inset: 0;
@@ -149,8 +243,18 @@
       height: auto;
       animation: flutuar 3s ease-in-out infinite, brilho 2.5s ease-in-out infinite;
     }
+    #brasao-corvinal p {
+      text-align: center;
+      color: #ffffff;
+      font-family: 'HarryPotter', serif;
+      font-size: 48px;
+      letter-spacing: 2px;
+      margin-top: -30px;
+      text-shadow: 1px 1px 0px #000, -1px -1px 0px #000, 1px -1px 0px #000, -1px 1px 0px #000, 2px 2px 4px #000;
+      animation: flutuar 3s ease-in-out infinite;
+    }
 
-    /* BRASÕES SECUNDÁRIOS */
+    /* BRASÕES SECUNDÁRIOS — linha centralizada */
     #brasoes-linha {
       position: fixed;
       bottom: 20px;
@@ -209,94 +313,6 @@
     .btn-lateral:hover { opacity: 1; }
     .btn-lateral:focus { outline: none; }
     .btn-lateral img { width: 100%; height: 100%; object-fit: contain; }
-
-    /* MODAL JORNAL */
-    #modal-jornal {
-      position: fixed;
-      inset: 0;
-      z-index: 200;
-      background: #000;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.5s ease;
-    }
-    #modal-jornal.visivel {
-      opacity: 1;
-      pointer-events: auto;
-    }
-    #modal-jornal iframe {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 120vw;
-      height: 67.5vw;
-      min-height: 120vh;
-      min-width: 213.33vh;
-      transform: translate(-50%, -50%);
-      border: none;
-      pointer-events: auto;
-    }
-    #btn-fechar-jornal {
-      position: absolute;
-      top: 15px;
-      left: 15px;
-      z-index: 201;
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      border: 2px solid rgba(255,255,255,0.6);
-      background: rgba(0,0,0,0.6);
-      color: #fff;
-      font-size: 22px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: background 0.3s;
-    }
-    #btn-fechar-jornal:hover { background: rgba(255,255,255,0.2); }
-    #btn-fechar-jornal:focus { outline: none; }
-
-    /* RESPONSIVO MOBILE */
-    @media (max-width: 768px) {
-      .video-wrap iframe {
-        width: 92vw;
-        height: 67.5vw;
-        min-height: 92vh;
-        min-width: 213.33vh;
-      }
-      #brasao-corvinal img {
-        width: 180px;
-      }
-      #brasoes-linha {
-        bottom: 180px !important;
-        align-items: flex-end;
-      }
-      #brasoes-linha img {
-        width: 120px !important;
-      }
-      #brasoes-linha img#brasao-sonserina {
-        width: 200px !important;
-        position: relative;
-        top: -30px;
-        right: -60px;
-      }
-      #brasoes-linha img#brasao-grifinoria {
-        width: 180px !important;
-        position: relative;
-        top: 70px;
-        right: -40px;
-      }
-      #brasoes-linha img#brasao-lufalufa {
-        width: 120px !important;
-        position: relative;
-        top: 200px;
-        right: 210px;
-      }
-    }
   </style>
 </head>
 <body>
@@ -319,7 +335,7 @@
     </iframe>
   </div>
 
-  <!-- VÍDEO 2 — LOOP -->
+  <!-- VÍDEO 2 — LOOP (rodando em background desde o início, invisível) -->
   <div id="wrap2" class="video-wrap oculto">
     <iframe id="player2"
       src="https://player.vimeo.com/video/1178003266?autoplay=1&loop=1&muted=1&controls=0&title=0&byline=0&portrait=0&badge=0&dnt=1&background=1&api=1"
@@ -373,16 +389,16 @@
 
   <script src="https://player.vimeo.com/api/player.js"></script>
   <script>
-    const player1      = new Vimeo.Player('player1');
-    const player2      = new Vimeo.Player('player2');
-    const playerJornal = new Vimeo.Player('player-jornal');
-
     const audioBtn        = document.getElementById('audio-btn');
     const wrap1           = document.getElementById('wrap1');
     const wrap2           = document.getElementById('wrap2');
     const modalJornal     = document.getElementById('modal-jornal');
     const btnJornal       = document.getElementById('btn-jornal');
     const btnFecharJornal = document.getElementById('btn-fechar-jornal');
+
+    const player1      = new Vimeo.Player('player1');
+    const player2      = new Vimeo.Player('player2');
+    const playerJornal = new Vimeo.Player('player-jornal');
 
     let intro    = true;
     let muted    = false;
@@ -426,7 +442,6 @@
       playerJornal.setVolume(1);
       modalJornal.classList.add('visivel');
     });
-
     btnFecharJornal.addEventListener('click', () => {
       playerJornal.setVolume(0);
       modalJornal.classList.remove('visivel');
