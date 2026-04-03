@@ -390,20 +390,29 @@
 
   <script src="https://player.vimeo.com/api/player.js"></script>
   <script>
-    const audioBtn = document.getElementById('audio-btn');
-    const wrap1    = document.getElementById('wrap1');
-    const wrap2    = document.getElementById('wrap2');
+    const audioBtn   = document.getElementById('audio-btn');
+    const wrap1      = document.getElementById('wrap1');
+    const wrap2      = document.getElementById('wrap2');
 
-    const player1 = new Vimeo.Player('player1');
-    const player2 = new Vimeo.Player('player2');
+    const player1    = new Vimeo.Player('player1');
+    const player2    = new Vimeo.Player('player2');
+    const playerJornal = new Vimeo.Player('player-jornal');
 
-    let intro = true;
-    let muted = true;
+    let intro    = true;
+    let muted    = true;
     let trocando = false;
 
-    // Garante que o vídeo inicia mutado
-    player1.setVolume(0);
+    audioBtn.classList.remove('ativo');
 
+    // BOTÃO DE ÁUDIO
+    audioBtn.addEventListener('click', () => {
+      if (!intro) return;
+      muted = !muted;
+      player1.setVolume(muted ? 0 : 1);
+      audioBtn.classList.toggle('ativo', !muted);
+    });
+
+    // TROCA VÍDEO 1 → VÍDEO 2
     function fazerTroca() {
       if (trocando) return;
       trocando = true;
@@ -434,18 +443,10 @@
 
     player1.on('ended', fazerTroca);
 
-    audioBtn.addEventListener('click', () => {
-      if (!intro) return;
-      muted = !muted;
-      player1.setVolume(muted ? 0 : 1);
-      audioBtn.classList.toggle('ativo', !muted);
-    });
     // MODAL JORNAL
-    const modalJornal = document.getElementById('modal-jornal');
-    const playerJornalIframe = document.getElementById('player-jornal');
+    const modalJornal    = document.getElementById('modal-jornal');
     const btnFecharJornal = document.getElementById('btn-fechar-jornal');
-    const btnJornal = document.getElementById('btn-jornal');
-    const playerJornal = new Vimeo.Player('player-jornal');
+    const btnJornal      = document.getElementById('btn-jornal');
 
     btnJornal.addEventListener('click', () => {
       playerJornal.setVolume(1);
