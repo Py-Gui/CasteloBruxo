@@ -236,6 +236,51 @@
     .btn-lateral:hover { opacity: 1; }
     .btn-lateral:focus { outline: none; }
     .btn-lateral img { width: 100%; height: 100%; object-fit: contain; }
+    /* MODAL JORNAL */
+    #modal-jornal {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      background: #000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+    #modal-jornal.visivel {
+      display: flex;
+    }
+    #modal-jornal iframe {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 120vw;
+      height: 67.5vw;
+      min-height: 120vh;
+      min-width: 213.33vh;
+      transform: translate(-50%, -50%);
+      border: none;
+      pointer-events: auto;
+    }
+    #btn-fechar-jornal {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      z-index: 110;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      border: 2px solid rgba(255,255,255,0.6);
+      background: rgba(0,0,0,0.6);
+      color: #fff;
+      font-size: 22px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.3s;
+    }
+    #btn-fechar-jornal:hover { background: rgba(255,255,255,0.2); }
+    #btn-fechar-jornal:focus { outline: none; }
   </style>
 </head>
 <body>
@@ -293,6 +338,16 @@
     </button>
   </div>
 
+  <!-- MODAL JORNAL -->
+  <div id="modal-jornal">
+    <button id="btn-fechar-jornal" title="Fechar">✕</button>
+    <iframe id="player-jornal"
+      src=""
+      allow="autoplay; fullscreen"
+      allowfullscreen>
+    </iframe>
+  </div>
+
   <script src="https://player.vimeo.com/api/player.js"></script>
   <script>
     const audioBtn = document.getElementById('audio-btn');
@@ -341,6 +396,21 @@
       muted = !muted;
       player1.setVolume(muted ? 0 : 1);
       audioBtn.classList.toggle('ativo', !muted);
+    });
+    // MODAL JORNAL
+    const modalJornal = document.getElementById('modal-jornal');
+    const playerJornalIframe = document.getElementById('player-jornal');
+    const btnFecharJornal = document.getElementById('btn-fechar-jornal');
+    const btnJornal = document.getElementById('btn-jornal');
+
+    btnJornal.addEventListener('click', () => {
+      playerJornalIframe.src = 'https://player.vimeo.com/video/1179951221?autoplay=1&controls=1&title=0&byline=0&portrait=0&badge=0&dnt=1';
+      modalJornal.classList.add('visivel');
+    });
+
+    btnFecharJornal.addEventListener('click', () => {
+      modalJornal.classList.remove('visivel');
+      playerJornalIframe.src = '';
     });
   </script>
 </body>
