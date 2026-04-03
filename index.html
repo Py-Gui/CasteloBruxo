@@ -339,7 +339,8 @@
   <script>
     const player1      = new Vimeo.Player('player1');
     const player2      = new Vimeo.Player('player2');
-    const playerJornal = new Vimeo.Player('player-jornal');
+    let playerJornal   = null;
+    try { playerJornal = new Vimeo.Player('player-jornal'); } catch(e) {}
 
     const audioBtn        = document.getElementById('audio-btn');
     const wrap1           = document.getElementById('wrap1');
@@ -412,7 +413,7 @@
       if (pinAtual === SENHA) {
         popupRita.classList.remove('visivel');
         pinAtual = ''; atualizarDisplay();
-        playerJornal.setVolume(1);
+        if (playerJornal) playerJornal.setVolume(1);
         modalJornal.classList.add('visivel');
       } else {
         pinErro.textContent = 'Senha incorreta.';
@@ -432,7 +433,7 @@
     });
 
     document.getElementById('btn-fechar-jornal').addEventListener('click', () => {
-      playerJornal.setVolume(0);
+      if (playerJornal) playerJornal.setVolume(0);
       modalJornal.classList.remove('visivel');
     });
   </script>
