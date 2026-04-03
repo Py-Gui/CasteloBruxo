@@ -8,155 +8,268 @@
     @font-face {
       font-family: 'HarryPotter';
       src: url('imagens/HARRYP__.TTF') format('truetype');
+      font-weight: normal;
+      font-style: normal;
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
     html, body {
-      width: 100%; height: 100%;
+      width: 100%;
+      height: 100%;
       overflow: hidden;
       background: #000;
     }
 
-    /* ── VÍDEOS ── */
     .video-wrap {
-      position: fixed; inset: 0;
-      overflow: hidden; z-index: 0;
-      opacity: 1; transition: opacity 2s ease;
-    }
-    .video-wrap.oculto { opacity: 0; pointer-events: none; }
-    .video-wrap iframe {
-      position: absolute;
-      top: 50%; left: 50%;
-      width: 120vw; height: 67.5vw;
-      min-height: 120vh; min-width: 213.33vh;
-      transform: translate(-50%, -50%);
-      border: none; pointer-events: none;
+      position: fixed;
+      inset: 0;
+      overflow: hidden;
+      z-index: 0;
+      opacity: 1;
+      transition: opacity 2s ease;
     }
 
-    /* ── OVERLAY ── */
+    .video-wrap.oculto {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    iframe {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 120vw;
+      height: 67.5vw;
+      min-height: 120vh;
+      min-width: 213.33vh;
+      transform: translate(-50%, -50%);
+      border: none;
+      pointer-events: none;
+    }
+
+    #wrap2 iframe {
+      width: 120vw;
+      height: 67.5vw;
+      min-height: 120vh;
+      min-width: 213.33vh;
+    }
+
+    /* OVERLAY */
     #overlay {
-      position: fixed; inset: 0;
-      background: #000; z-index: 5;
-      opacity: 0; pointer-events: none;
+      position: fixed;
+      inset: 0;
+      background: #000;
+      z-index: 5;
+      opacity: 0;
+      pointer-events: none;
       transition: opacity 1.5s ease;
     }
 
-    /* ── BOTÃO ÁUDIO ── */
+    /* BOTÃO ÁUDIO */
     #audio-btn {
-      position: fixed; bottom: -13px; right: -10px;
-      z-index: 10; width: 52px; height: 52px;
-      border: none; background: transparent;
-      cursor: pointer; padding: 0;
-      opacity: 0.5; transition: opacity 0.3s;
+      position: fixed;
+      bottom: -13px;
+      right: -10px;
+      z-index: 10;
+      width: 52px;
+      height: 52px;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      padding: 0;
+      opacity: 0.5;
+      transition: opacity 0.3s;
     }
-    #audio-btn:hover, #audio-btn.ativo { opacity: 1; }
+    #audio-btn:hover { opacity: 1; }
+    #audio-btn.ativo { opacity: 1; }
     #audio-btn.sem-funcao { pointer-events: none; opacity: 0.3; }
     #audio-btn:focus { outline: none; }
     #audio-btn img { width: 100%; height: 100%; object-fit: contain; }
 
-    /* ── BOTÃO SERVIDORES ── */
+    /* BOTÃO SERVIDORES */
     #btn-servidores {
-      position: fixed; bottom: 0; left: 0;
-      z-index: 10; width: 80px; height: 80px;
-      border: none; background: transparent;
-      cursor: pointer; padding: 0;
-      opacity: 0; transition: opacity 2s ease;
+      position: fixed;
+      bottom: 0px;
+      left: 0px;
+      z-index: 10;
+      width: 80px;
+      height: 80px;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      padding: 0;
+      opacity: 0;
+      transition: opacity 2s ease;
     }
     #btn-servidores:hover { opacity: 1 !important; }
     #btn-servidores:focus { outline: none; }
     #btn-servidores img { width: 80px; height: 80px; object-fit: fill; }
 
-    /* ── BRASÃO CORVINAL ── */
+    /* BRASÃO CORVINAL */
     #brasao-corvinal {
-      position: fixed; top: 60px; left: 50%;
+      position: fixed;
+      top: 60px;
+      left: 50%;
       transform: translateX(-50%);
-      z-index: 10; opacity: 0;
+      z-index: 10;
+      opacity: 0;
       transition: opacity 2s ease;
-      display: flex; flex-direction: column;
-      align-items: center; width: max-content;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: max-content;
     }
     #brasao-corvinal.visivel { opacity: 1; }
     #brasao-corvinal img {
-      width: 400px; height: auto;
+      width: 400px;
+      height: auto;
       animation: flutuar 3s ease-in-out infinite, brilho 2.5s ease-in-out infinite;
     }
 
-    /* ── BRASÕES SECUNDÁRIOS ── */
+    /* BRASÕES SECUNDÁRIOS */
     #brasoes-linha {
-      position: fixed; bottom: 20px; left: 50%;
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
       transform: translateX(-50%);
-      z-index: 10; opacity: 0;
+      z-index: 10;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 10px;
+      opacity: 0;
       transition: opacity 2s ease;
-      display: flex; flex-direction: row;
-      align-items: center; gap: 10px;
     }
     #brasoes-linha.visivel { opacity: 1; }
-    #brasoes-linha img { width: 280px; height: auto; max-width: none; }
+    #brasoes-linha img {
+      width: 280px;
+      height: auto;
+      max-width: none;
+    }
 
-    /* ── ANIMAÇÕES ── */
+    /* ANIMAÇÕES */
     @keyframes flutuar {
-      0%, 100% { transform: translateY(0); }
-      50%       { transform: translateY(-12px); }
+      0%   { transform: translateY(0px); }
+      50%  { transform: translateY(-12px); }
+      100% { transform: translateY(0px); }
     }
     @keyframes brilho {
-      0%, 100% { filter: drop-shadow(0 0 8px #4a90d9) drop-shadow(0 0 20px #1a5fa8) drop-shadow(0 0 40px #0d3b6e); }
-      50%      { filter: drop-shadow(0 0 18px #7ab8ff) drop-shadow(0 0 40px #3a80d9) drop-shadow(0 0 80px #1a5fa8); }
+      0%   { filter: drop-shadow(0 0 8px #4a90d9) drop-shadow(0 0 20px #1a5fa8) drop-shadow(0 0 40px #0d3b6e); }
+      50%  { filter: drop-shadow(0 0 18px #7ab8ff) drop-shadow(0 0 40px #3a80d9) drop-shadow(0 0 80px #1a5fa8); }
+      100% { filter: drop-shadow(0 0 8px #4a90d9) drop-shadow(0 0 20px #1a5fa8) drop-shadow(0 0 40px #0d3b6e); }
     }
 
-    /* ── BOTÕES DIREITA ── */
+    /* BOTÕES LATERAIS DIREITA */
     #botoes-direita {
-      position: fixed; right: -15px; top: 12px;
-      z-index: 10; opacity: 0; pointer-events: none;
+      position: fixed;
+      right: -15px;
+      top: 12px;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      align-items: center;
+      opacity: 0;
       transition: opacity 2s ease;
-      display: flex; flex-direction: column;
-      gap: 10px; align-items: center;
     }
-    #botoes-direita.visivel { opacity: 1; pointer-events: auto; }
     .btn-lateral {
-      width: 80px; height: 80px;
-      border: none; background: transparent;
-      cursor: pointer; padding: 0;
-      opacity: 0.7; transition: opacity 0.3s;
+      width: 80px;
+      height: 80px;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      padding: 0;
+      opacity: 0.7;
+      transition: opacity 0.3s;
     }
     .btn-lateral:hover { opacity: 1; }
     .btn-lateral:focus { outline: none; }
     .btn-lateral img { width: 100%; height: 100%; object-fit: contain; }
 
-    /* ── POPUP RITA ── */
+    /* BLOQUEIO DESKTOP */
+    #bloqueio-desktop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: #000;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 20px;
+      text-align: center;
+      padding: 40px;
+    }
+    #bloqueio-desktop p {
+      color: #c9a84c;
+      font-family: 'HarryPotter', serif;
+      font-size: 28px;
+      letter-spacing: 2px;
+      text-shadow: 0 0 10px #c9a84c88;
+    }
+    #bloqueio-desktop span {
+      color: #ffffff99;
+      font-family: sans-serif;
+      font-size: 14px;
+      letter-spacing: 1px;
+    }
+    @media (min-width: 769px) {
+      #bloqueio-desktop { display: flex; }
+    }
+
+    /* POPUP RITA */
     #popup-rita {
-      position: fixed; inset: 0; z-index: 300;
-      display: flex; align-items: center; justify-content: center;
+      position: fixed;
+      inset: 0;
+      z-index: 300;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       background: rgba(0,0,0,0.85);
-      opacity: 0; pointer-events: none;
+      opacity: 0;
+      pointer-events: none;
       transition: opacity 0.4s ease;
     }
     #popup-rita.visivel { opacity: 1; pointer-events: auto; }
     #popup-rita-inner {
-      display: flex; flex-direction: column;
-      align-items: center; gap: 16px;
-      width: 85vw; max-width: 320px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      width: 85vw;
+      max-width: 320px;
     }
     #popup-rita-inner > img { width: 100%; height: auto; border-radius: 8px; }
     #pin-display {
-      font-family: monospace; font-size: 28px;
-      letter-spacing: 10px; color: #c9a84c;
+      font-family: monospace;
+      font-size: 28px;
+      letter-spacing: 10px;
+      color: #c9a84c;
       background: rgba(0,0,0,0.6);
       border: 1px solid #c9a84c55;
-      border-radius: 8px; padding: 10px 20px;
-      width: 100%; text-align: center; min-height: 52px;
+      border-radius: 8px;
+      padding: 10px 20px;
+      width: 100%;
+      text-align: center;
+      min-height: 52px;
     }
     #pin-erro { color: #ff4444; font-family: sans-serif; font-size: 13px; height: 18px; }
     #pin-teclado {
-      display: grid; grid-template-columns: repeat(3, 1fr);
-      gap: 10px; width: 100%;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      width: 100%;
     }
     .pin-btn {
       background: rgba(255,255,255,0.08);
       border: 1px solid rgba(255,255,255,0.2);
-      border-radius: 8px; color: #fff;
-      font-size: 22px; padding: 14px 0;
-      cursor: pointer; transition: background 0.2s;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 22px;
+      padding: 14px 0;
+      cursor: pointer;
+      transition: background 0.2s;
     }
     .pin-btn:active { background: rgba(201,168,76,0.3); }
     .pin-btn:focus { outline: none; }
@@ -165,64 +278,66 @@
       grid-column: span 2;
       background: rgba(201,168,76,0.2);
       border-color: #c9a84c88;
-      color: #c9a84c; font-size: 16px;
+      color: #c9a84c;
+      font-size: 16px;
     }
     #btn-fechar-rita {
-      background: transparent; border: none;
-      color: #ffffff55; font-size: 13px;
-      cursor: pointer; font-family: sans-serif;
+      background: transparent;
+      border: none;
+      color: #ffffff55;
+      font-size: 13px;
+      cursor: pointer;
+      font-family: sans-serif;
       text-decoration: underline;
     }
 
-    /* ── MODAL JORNAL ── */
+    /* MODAL JORNAL */
     #modal-jornal {
-      position: fixed; inset: 0; z-index: 200;
+      position: fixed;
+      inset: 0;
+      z-index: 200;
       background: #000;
-      display: flex; align-items: center; justify-content: center;
-      opacity: 0; pointer-events: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
       transition: opacity 0.5s ease;
     }
     #modal-jornal.visivel { opacity: 1; pointer-events: auto; }
     #modal-jornal iframe {
-      position: absolute; top: 50%; left: 50%;
+      position: absolute;
+      top: 50%; left: 50%;
       width: 120vw; height: 67.5vw;
       min-height: 120vh; min-width: 213.33vh;
       transform: translate(-50%, -50%);
-      border: none; pointer-events: auto;
+      border: none;
+      pointer-events: auto;
     }
     #btn-fechar-jornal {
-      position: absolute; top: 15px; left: 15px; z-index: 201;
-      width: 44px; height: 44px; border-radius: 50%;
+      position: absolute;
+      top: 15px; left: 15px;
+      z-index: 201;
+      width: 44px; height: 44px;
+      border-radius: 50%;
       border: 2px solid rgba(255,255,255,0.6);
-      background: rgba(0,0,0,0.6); color: #fff;
-      font-size: 22px; cursor: pointer;
-      display: flex; align-items: center; justify-content: center;
-      transition: background 0.3s;
+      background: rgba(0,0,0,0.6);
+      color: #fff;
+      font-size: 22px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
     #btn-fechar-jornal:focus { outline: none; }
 
-    /* ── BLOQUEIO DESKTOP ── */
-    #bloqueio-desktop {
-      display: none; position: fixed; inset: 0; z-index: 9999;
-      background: #000; align-items: center; justify-content: center;
-      flex-direction: column; gap: 20px;
-      text-align: center; padding: 40px;
-    }
-    #bloqueio-desktop p {
-      color: #c9a84c; font-family: 'HarryPotter', serif;
-      font-size: 28px; letter-spacing: 2px;
-      text-shadow: 0 0 10px #c9a84c88;
-    }
-    #bloqueio-desktop span {
-      color: #ffffff99; font-family: sans-serif;
-      font-size: 14px; letter-spacing: 1px;
-    }
-
-    /* ── MOBILE ── */
+    /* MOBILE */
     @media (max-width: 768px) {
       #wrap2 iframe {
-        width: 92vw; height: 67.5vw;
-        min-height: 92vh; min-width: 213.33vh;
+        width: 92vw;
+        height: 67.5vw;
+        min-height: 92vh;
+        min-width: 213.33vh;
       }
       #brasao-corvinal img { width: 220px; }
       #brasoes-linha {
@@ -232,21 +347,22 @@
       #brasoes-linha img { width: 120px !important; }
       #brasoes-linha img#brasao-sonserina {
         width: 200px !important;
-        position: relative; top: -30px; right: -60px;
+        position: relative;
+        top: -30px;
+        right: -60px;
       }
       #brasoes-linha img#brasao-grifinoria {
         width: 180px !important;
-        position: relative; top: 70px; right: -40px;
+        position: relative;
+        top: 70px;
+        right: -40px;
       }
       #brasoes-linha img#brasao-lufalufa {
         width: 120px !important;
-        position: relative; top: 200px; right: 210px;
+        position: relative;
+        top: 200px;
+        right: 210px;
       }
-    }
-
-    /* ── DESKTOP ── */
-    @media (min-width: 769px) {
-      #bloqueio-desktop { display: flex; }
     }
   </style>
 </head>
@@ -265,7 +381,8 @@
   <div id="wrap1" class="video-wrap">
     <iframe id="player1"
       src="https://player.vimeo.com/video/1177984857?autoplay=1&muted=1&controls=0&title=0&byline=0&portrait=0&badge=0&dnt=1&api=1"
-      allow="autoplay; fullscreen" allowfullscreen>
+      allow="autoplay; fullscreen"
+      allowfullscreen>
     </iframe>
   </div>
 
@@ -273,11 +390,12 @@
   <div id="wrap2" class="video-wrap oculto">
     <iframe id="player2"
       src="https://player.vimeo.com/video/1178003266?autoplay=1&loop=1&muted=1&controls=0&title=0&byline=0&portrait=0&badge=0&dnt=1&background=1&api=1"
-      allow="autoplay; fullscreen" allowfullscreen>
+      allow="autoplay; fullscreen"
+      allowfullscreen>
     </iframe>
   </div>
 
-  <button id="audio-btn" title="Som">
+  <button id="audio-btn" title="Ativar/desativar som">
     <img src="imagens/botao-audio.png" alt="Som">
   </button>
 
@@ -296,10 +414,18 @@
   </div>
 
   <div id="botoes-direita">
-    <button class="btn-lateral" id="btn-regras"><img src="imagens/botao-regras.png" alt="Regras"></button>
-    <button class="btn-lateral" id="btn-livros"><img src="imagens/botao-livros.png" alt="Livros"></button>
-    <button class="btn-lateral" id="btn-filmes"><img src="imagens/botao-filmes.png" alt="Filmes"></button>
-    <button class="btn-lateral" id="btn-jornal"><img src="imagens/botao-jornal.png" alt="Jornal"></button>
+    <button class="btn-lateral" id="btn-regras" title="Regras">
+      <img src="imagens/botao-regras.png" alt="Regras">
+    </button>
+    <button class="btn-lateral" id="btn-livros" title="Livros">
+      <img src="imagens/botao-livros.png" alt="Livros">
+    </button>
+    <button class="btn-lateral" id="btn-filmes" title="Filmes">
+      <img src="imagens/botao-filmes.png" alt="Filmes">
+    </button>
+    <button class="btn-lateral" id="btn-jornal" title="Jornal">
+      <img src="imagens/botao-jornal.png" alt="Jornal">
+    </button>
   </div>
 
   <!-- POPUP RITA -->
@@ -331,25 +457,19 @@
     <button id="btn-fechar-jornal">&#8592;</button>
     <iframe id="player-jornal"
       src="https://player.vimeo.com/video/1179951221?autoplay=1&loop=1&muted=1&controls=0&title=0&byline=0&portrait=0&badge=0&dnt=1"
-      allow="autoplay; fullscreen" allowfullscreen>
+      allow="autoplay; fullscreen"
+      allowfullscreen>
     </iframe>
   </div>
 
   <script src="https://player.vimeo.com/api/player.js"></script>
   <script>
-    const player1      = new Vimeo.Player('player1');
-    const player2      = new Vimeo.Player('player2');
-    let playerJornal   = null;
-    try { playerJornal = new Vimeo.Player('player-jornal'); } catch(e) {}
+    const audioBtn = document.getElementById('audio-btn');
+    const wrap1    = document.getElementById('wrap1');
+    const wrap2    = document.getElementById('wrap2');
 
-    const audioBtn        = document.getElementById('audio-btn');
-    const wrap1           = document.getElementById('wrap1');
-    const wrap2           = document.getElementById('wrap2');
-    const botoesDireita   = document.getElementById('botoes-direita');
-    const popupRita       = document.getElementById('popup-rita');
-    const pinDisplay      = document.getElementById('pin-display');
-    const pinErro         = document.getElementById('pin-erro');
-    const modalJornal     = document.getElementById('modal-jornal');
+    const player1 = new Vimeo.Player('player1');
+    const player2 = new Vimeo.Player('player2');
 
     let intro    = true;
     let muted    = true;
@@ -357,7 +477,7 @@
     let pinAtual = '';
     const SENHA  = '02051998';
 
-    /* ── ÁUDIO ── */
+    // ÁUDIO
     audioBtn.addEventListener('click', () => {
       if (!intro) return;
       muted = !muted;
@@ -365,16 +485,17 @@
       audioBtn.classList.toggle('ativo', !muted);
     });
 
-    /* ── TROCA VÍDEO 1 → 2 ── */
+    // TROCA VÍDEO 1 → 2
     function fazerTroca() {
       if (trocando) return;
-      trocando = true; intro = false;
+      trocando = true;
+      intro = false;
       audioBtn.classList.add('sem-funcao');
       audioBtn.classList.remove('ativo');
       wrap2.classList.remove('oculto');
       setTimeout(() => {
         wrap1.classList.add('oculto');
-        botoesDireita.classList.add('visivel');
+        document.getElementById('botoes-direita').style.opacity = '1';
         document.getElementById('btn-servidores').style.opacity = '0.5';
         document.getElementById('brasao-corvinal').classList.add('visivel');
         document.getElementById('brasoes-linha').classList.add('visivel');
@@ -382,59 +503,63 @@
       }, 50);
     }
 
-    player1.on('timeupdate', data => {
-      player1.getDuration().then(dur => {
-        if (!trocando && dur - data.seconds <= 1.5) fazerTroca();
+    player1.on('timeupdate', function(data) {
+      player1.getDuration().then(function(duracao) {
+        if (!trocando && duracao - data.seconds <= 1.5) fazerTroca();
       });
     });
     player1.on('ended', fazerTroca);
 
-    /* ── PIN ── */
+    // PIN
     function atualizarDisplay() {
-      pinDisplay.textContent = pinAtual.length ? '●'.repeat(pinAtual.length) : '●';
+      var d = document.getElementById('pin-display');
+      d.textContent = pinAtual.length ? '●'.repeat(pinAtual.length) : '●';
     }
 
-    document.querySelectorAll('.pin-btn[data-n]').forEach(btn => {
-      btn.addEventListener('click', () => {
+    document.querySelectorAll('.pin-btn[data-n]').forEach(function(btn) {
+      btn.addEventListener('click', function() {
         if (pinAtual.length >= 10) return;
-        pinAtual += btn.dataset.n;
-        pinErro.textContent = '';
+        pinAtual += this.dataset.n;
+        document.getElementById('pin-erro').textContent = '';
         atualizarDisplay();
       });
     });
 
-    document.getElementById('pin-apagar').addEventListener('click', () => {
+    document.getElementById('pin-apagar').addEventListener('click', function() {
       pinAtual = pinAtual.slice(0, -1);
-      pinErro.textContent = '';
+      document.getElementById('pin-erro').textContent = '';
       atualizarDisplay();
     });
 
-    document.getElementById('pin-confirmar').addEventListener('click', () => {
+    document.getElementById('pin-confirmar').addEventListener('click', function() {
       if (pinAtual === SENHA) {
-        popupRita.classList.remove('visivel');
-        pinAtual = ''; atualizarDisplay();
-        if (playerJornal) playerJornal.setVolume(1);
-        modalJornal.classList.add('visivel');
+        document.getElementById('popup-rita').classList.remove('visivel');
+        document.getElementById('modal-jornal').classList.add('visivel');
+        pinAtual = '';
+        atualizarDisplay();
       } else {
-        pinErro.textContent = 'Senha incorreta.';
-        pinAtual = ''; atualizarDisplay();
+        document.getElementById('pin-erro').textContent = 'Senha incorreta.';
+        pinAtual = '';
+        atualizarDisplay();
       }
     });
 
-    /* ── JORNAL ── */
-    document.getElementById('btn-jornal').addEventListener('click', () => {
-      pinAtual = ''; pinErro.textContent = ''; atualizarDisplay();
-      popupRita.classList.add('visivel');
+    // JORNAL
+    document.getElementById('btn-jornal').addEventListener('click', function() {
+      pinAtual = '';
+      document.getElementById('pin-erro').textContent = '';
+      atualizarDisplay();
+      document.getElementById('popup-rita').classList.add('visivel');
     });
 
-    document.getElementById('btn-fechar-rita').addEventListener('click', () => {
-      popupRita.classList.remove('visivel');
-      pinAtual = ''; atualizarDisplay();
+    document.getElementById('btn-fechar-rita').addEventListener('click', function() {
+      document.getElementById('popup-rita').classList.remove('visivel');
+      pinAtual = '';
+      atualizarDisplay();
     });
 
-    document.getElementById('btn-fechar-jornal').addEventListener('click', () => {
-      if (playerJornal) playerJornal.setVolume(0);
-      modalJornal.classList.remove('visivel');
+    document.getElementById('btn-fechar-jornal').addEventListener('click', function() {
+      document.getElementById('modal-jornal').classList.remove('visivel');
     });
   </script>
 </body>
