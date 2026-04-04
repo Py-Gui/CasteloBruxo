@@ -193,6 +193,45 @@
       cursor: pointer;
     }
 
+    /* LIVROS BIBLIOTECA */
+    #livros-container {
+      position: fixed;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 250;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      width: 90vw;
+      max-width: 360px;
+      justify-items: center;
+    }
+
+    .capa-livro {
+      width: 90px;
+      height: 135px;
+      object-fit: cover;
+      border-radius: 2px 6px 6px 2px;
+      cursor: pointer;
+      box-shadow: 
+        -4px 0px 6px rgba(0,0,0,0.5),
+        4px 4px 15px rgba(0,0,0,0.8),
+        0 0 8px rgba(201,168,76,0.2);
+      border-left: 4px solid rgba(0,0,0,0.4);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .capa-livro:active {
+      transform: scale(0.95);
+    }
+
+    .livro-ultimo {
+      grid-column: span 3;
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+
     /* CAPAS DOS EVENTOS */
     #capas-container {
       position: fixed;
@@ -280,6 +319,34 @@
         src="https://player.vimeo.com/video/1180078003?autoplay=1&loop=1&muted=1&background=1&controls=0"
         allow="autoplay; fullscreen" allowfullscreen>
       </iframe>
+    </div>
+    <div id="livros-container">
+      <a href="https://drive.google.com/file/d/12YNbZ9m14bLMm8mzd9TAZ0XmE2ou4H0F/view" target="_blank">
+        <img class="capa-livro" src="imagens/HARRY POTTER E A PEDRA FILOSOFAL.jpg" alt="Pedra Filosofal">
+      </a>
+      <a href="https://drive.google.com/file/d/12eNEU4yBc_UtC3t4XzDJw-vuY8F_3j1F/view" target="_blank">
+        <img class="capa-livro" src="imagens/HARRY POTTER E A CÂMARA SECRETA.jpg" alt="Câmara Secreta">
+      </a>
+      <a href="https://drive.google.com/file/d/12l0vTZguBtwA-0aVK9dBd5qHyYPDl18i/view" target="_blank">
+        <img class="capa-livro" src="imagens/HARRY POTTER E O PRISIONEIRO DE AZKABAN.jpg" alt="Prisioneiro de Azkaban">
+      </a>
+      <a href="https://drive.google.com/file/d/12hlF9pbz61YI0oC62ecPJ8X8UEhrLSm5/view" target="_blank">
+        <img class="capa-livro" src="imagens/HARRY POTTER E O CÁLICE DE FOGO.jpg" alt="Cálice de Fogo">
+      </a>
+      <a href="https://drive.google.com/file/d/12gbyZrlllhpbT6PrW9EqqjxKb7DLY9fz/view" target="_blank">
+        <img class="capa-livro" src="imagens/HARRY POTTER E A ORDEM DA FÊNIX.jpg" alt="Ordem da Fênix">
+      </a>
+      <a href="https://drive.google.com/file/d/12g-BWUmjKVHJgxI6eGYPZakprxcA7sAm/view" target="_blank">
+        <img class="capa-livro" src="imagens/HARRY POTTER E O ENÍGMA DO PRÍNCIPE.jpg" alt="Enigma do Príncipe">
+      </a>
+      <div class="livro-ultimo">
+        <a href="https://drive.google.com/file/d/12epMTUU8r9V_tU3oqNouCD9NhgG9Y-qX/view" target="_blank">
+          <img class="capa-livro" src="imagens/HARRY POTTER E AS RELÍQUIAS DA MORTE.jpg" alt="Relíquias da Morte">
+        </a>
+        <a href="https://drive.google.com/file/d/12lJVp5Ifqx-0V5rvVnzGbu2zeO5e836l/view" target="_blank">
+          <img class="capa-livro" src="imagens/HARRY POTTER E A CRIANÇA AMALDIÇOADA.jpg" alt="Criança Amaldiçoada">
+        </a>
+      </div>
     </div>
   </div>
 
