@@ -41,9 +41,30 @@
       border: none;
       pointer-events: none;
     }
+
+    #icons-container {
+      position: fixed;
+      top: 16px;
+      right: 16px;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    #icons-container img {
+      width: 48px;
+      height: 48px;
+      object-fit: contain;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
+
+  <div id="icons-container">
+    <img src="imagens/íconejornal.png" alt="Jornal">
+  </div>
 
   <div id="video-container">
     <iframe
