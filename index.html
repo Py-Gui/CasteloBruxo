@@ -397,6 +397,68 @@
       transform: scale(0.96);
     }
 
+    #botao-jornal-container {
+      position: fixed;
+      bottom: 20%;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 260;
+      display: flex;
+      justify-content: center;
+    }
+
+    #botao-jornal {
+      width: 140px;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    #botao-jornal:active {
+      transform: scale(0.95);
+    }
+
+    /* LEITOR PDF */
+    #overlay-pdf {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.9);
+      z-index: 600;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #overlay-pdf.active { display: flex; }
+
+    #pdf-container {
+      position: relative;
+      width: 95vw;
+      height: 85vh;
+      background: #fff;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    #pdf-container iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    #btn-fechar-pdf {
+      position: absolute;
+      top: 8px; right: 8px;
+      z-index: 700;
+      background: #8b6914;
+      border: 2px solid #c9a84c;
+      color: #fff;
+      border-radius: 50%;
+      width: 36px; height: 36px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
     /* PLAYER TELA CHEIA */
     #player-evento {
       display: none;
@@ -619,6 +681,20 @@
       <img class="capa-evento" src="imagens/rita1.png" alt="Evento 1" onclick="abrirPlayer('https://player-vz-4bec1c09-0aa.tv.pandavideo.com.br/embed/?v=67de2168-2c07-4128-91e1-ede870b44f20')">
       <img class="capa-evento" src="imagens/rita2.jpeg" alt="Evento 2" style="object-position: top;" onclick="abrirPlayer('https://player-vz-4bec1c09-0aa.tv.pandavideo.com.br/embed/?v=dabe7b9f-8d60-4c3f-b172-0a7b4077b7b3')">
     </div>
+    <div id="botao-jornal-container">
+      <img src="imagens/botaojornal.png" alt="Jornal" id="botao-jornal" onclick="abrirPDF()">
+    </div>
+  </div>
+
+  <!-- LEITOR DE PDF -->
+  <div id="overlay-pdf">
+    <div id="pdf-container">
+      <button id="btn-fechar-pdf" onclick="fecharPDF()">✕</button>
+      <iframe id="iframe-pdf"
+        src="https://online.fliphtml5.com/vkzcv/JonalCasteloBruxo/"
+        allow="autoplay">
+      </iframe>
+    </div>
   </div>
 
   <!-- PLAYER TELA CHEIA -->
@@ -782,6 +858,14 @@
 
     window.fecharEmBreve = function() {
       document.getElementById("overlay-embreve").classList.remove("active");
+    }
+
+    window.abrirPDF = function() {
+      document.getElementById("overlay-pdf").classList.add("active");
+    }
+
+    window.fecharPDF = function() {
+      document.getElementById("overlay-pdf").classList.remove("active");
     }
 
     window.abrirPlayer = function(src) {
