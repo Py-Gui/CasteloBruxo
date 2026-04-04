@@ -56,6 +56,28 @@
       z-index: 10; display: flex; flex-direction: column; gap: 4px;
     }
     #icons-container img { width: 100px; height: 100px; object-fit: contain; cursor: pointer; }
+
+    /* BRASÕES */
+    #brasao-corvinal {
+      position: fixed;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 220px;
+      z-index: 10;
+      animation: flutuar-brasao 3s ease-in-out infinite, pulso-azul 2s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    @keyframes flutuar-brasao {
+      0%, 100% { transform: translateX(-50%) translateY(0px); }
+      50% { transform: translateX(-50%) translateY(-12px); }
+    }
+
+    @keyframes pulso-azul {
+      0%, 100% { filter: drop-shadow(0 0 6px #4a90d9) drop-shadow(0 0 12px #1a5fa8); }
+      50% { filter: drop-shadow(0 0 20px #7ab8f5) drop-shadow(0 0 40px #4a90d9); }
+    }
     #overlay {
       display: none; position: fixed; top: 0; left: 0;
       width: 100%; height: 100%; background: rgba(0,0,0,0.75);
@@ -562,6 +584,8 @@
     <div class="loading-texto">CARREGANDO</div>
     <div class="loading-subtexto">🏰 CasteloBruxo 🏰</div>
   </div>
+
+  <img id="brasao-corvinal" src="imagens/corvinal.png" alt="Corvinal">
 
   <div id="icons-container">
     <img src="imagens/íconejornal.png" alt="Jornal" onclick="abrirPopup()">
