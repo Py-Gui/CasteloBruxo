@@ -52,6 +52,62 @@
     #popup button#btn-fechar { margin-top: 12px; background: none; border: none; color: #888; font-size: 0.85rem; cursor: pointer; }
     #msg-erro { color: #ff6b6b; font-size: 0.82rem; margin-bottom: 10px; display: none; }
     #msg-erro.active { display: block; }
+
+    /* OVERLAY BIBLIOTECA */
+    #overlay-biblioteca {
+      display: none; position: fixed; top: 0; left: 0;
+      width: 100%; height: 100%; background: rgba(0,0,0,0.75);
+      z-index: 100; justify-content: center; align-items: center;
+    }
+    #overlay-biblioteca.active { display: flex; }
+    #popup-biblioteca {
+      background: #1a1a2e; border: 2px solid #c9a84c; border-radius: 12px;
+      padding: 28px 24px; width: 88vw; max-width: 360px; text-align: center;
+      box-shadow: 0 0 30px rgba(201,168,76,0.3);
+    }
+    #popup-biblioteca h2 { color: #c9a84c; font-family: Georgia, serif; font-size: 1.2rem; margin-bottom: 4px; letter-spacing: 1px; }
+    #popup-biblioteca p.subtitulo { color: #aaa; font-size: 0.78rem; margin-bottom: 20px; font-family: Georgia, serif; }
+    #popup-biblioteca input, #popup-biblioteca select {
+      width: 100%; padding: 10px 14px; margin-bottom: 14px;
+      border-radius: 8px; border: 1px solid #c9a84c;
+      background: #0f0f1e; color: #fff; font-size: 0.95rem; outline: none;
+    }
+    #popup-biblioteca select option { background: #0f0f1e; color: #fff; }
+    #btn-entrar-biblioteca {
+      width: 100%; padding: 12px; background: #c9a84c; color: #1a1a2e;
+      border: none; border-radius: 8px; font-size: 1rem; font-weight: bold;
+      cursor: pointer; font-family: Georgia, serif; letter-spacing: 1px;
+    }
+    #btn-entrar-biblioteca:active { opacity: 0.85; }
+    #msg-erro-biblioteca { color: #ff6b6b; font-size: 0.82rem; margin-bottom: 10px; display: none; }
+    #msg-erro-biblioteca.active { display: block; }
+
+    #overlay-biblioteca {
+      display: none; position: fixed; top: 0; left: 0;
+      width: 100%; height: 100%; background: rgba(0,0,0,0.75);
+      z-index: 100; justify-content: center; align-items: center;
+    }
+    #overlay-biblioteca.active { display: flex; }
+    #popup-biblioteca {
+      background: #1a1a2e; border: 2px solid #c9a84c; border-radius: 12px;
+      padding: 28px 24px; width: 88vw; max-width: 360px; text-align: center;
+      box-shadow: 0 0 30px rgba(201,168,76,0.3);
+    }
+    #popup-biblioteca h2 { color: #c9a84c; font-family: Georgia, serif; font-size: 1.2rem; margin-bottom: 4px; letter-spacing: 1px; }
+    #popup-biblioteca p.subtitulo { color: #aaa; font-size: 0.78rem; margin-bottom: 20px; font-family: Georgia, serif; }
+    #popup-biblioteca input, #popup-biblioteca select {
+      width: 100%; padding: 10px 14px; margin-bottom: 14px;
+      border-radius: 8px; border: 1px solid #c9a84c;
+      background: #0f0f1e; color: #fff; font-size: 0.95rem; outline: none;
+    }
+    #popup-biblioteca select option { background: #0f0f1e; color: #fff; }
+    #btn-entrar-biblioteca {
+      width: 100%; padding: 12px; background: #c9a84c; color: #1a1a2e;
+      border: none; border-radius: 8px; font-size: 1rem; font-weight: bold;
+      cursor: pointer; font-family: Georgia, serif; letter-spacing: 1px;
+    }
+    #msg-erro-biblioteca { color: #ff6b6b; font-size: 0.82rem; margin-bottom: 10px; display: none; }
+    #msg-erro-biblioteca.active { display: block; }
     /* JANELA MINISTERIO */
     #janela-ministerio {
       display: none;
@@ -84,6 +140,47 @@
     #btn-voltar {
       position: fixed;
       top: 16px; left: 12px;
+      z-index: 300;
+      background: rgba(0,0,0,0.5);
+      border: 2px solid #c9a84c;
+      color: #c9a84c;
+      border-radius: 6px;
+      padding: 5px 10px;
+      font-size: 0.8rem;
+      font-family: Georgia, serif;
+      cursor: pointer;
+    }
+
+    /* JANELA BIBLIOTECA */
+    #janela-biblioteca {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 200;
+      background: #000;
+    }
+
+    #janela-biblioteca.active {
+      display: block;
+    }
+
+    #janela-biblioteca #video-biblioteca {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+    }
+
+    #janela-biblioteca #video-biblioteca iframe {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      border: none; pointer-events: none;
+    }
+
+    #btn-voltar-biblioteca {
+      position: fixed;
+      top: 16px; right: 12px;
       z-index: 300;
       background: rgba(0,0,0,0.5);
       border: 2px solid #c9a84c;
@@ -164,7 +261,7 @@
 
   <div id="icons-container">
     <img src="imagens/íconejornal.png" alt="Jornal" onclick="abrirPopup()">
-    <img src="imagens/inconelivros.png" alt="Livros">
+    <img src="imagens/inconelivros.png" alt="Livros" onclick="abrirPopupBiblioteca()">
   </div>
 
   <div id="video-container">
@@ -172,6 +269,17 @@
       src="https://player.vimeo.com/video/1178003266?autoplay=1&loop=1&muted=1&background=1&controls=0"
       allow="autoplay; fullscreen" allowfullscreen>
     </iframe>
+  </div>
+
+  <!-- JANELA BIBLIOTECA -->
+  <div id="janela-biblioteca">
+    <button id="btn-voltar-biblioteca" onclick="fecharBiblioteca()">Voltar →</button>
+    <div id="video-biblioteca">
+      <iframe
+        src="https://player.vimeo.com/video/1180078003?autoplay=1&loop=1&muted=1&background=1&controls=0"
+        allow="autoplay; fullscreen" allowfullscreen>
+      </iframe>
+    </div>
   </div>
 
   <!-- JANELA MINISTERIO -->
@@ -193,6 +301,25 @@
   <div id="player-evento">
     <button id="btn-fechar-player" onclick="fecharPlayer()">← Voltar</button>
     <iframe id="iframe-player" src="" allow="accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture" allowfullscreen></iframe>
+  </div>
+
+  <!-- OVERLAY BIBLIOTECA -->
+  <div id="overlay-biblioteca">
+    <div id="popup-biblioteca">
+      <h2>📚 Biblioteca</h2>
+      <p class="subtitulo">Área restrita aos membros do Grêmio CasteloBruxo</p>
+      <p id="msg-erro-biblioteca"></p>
+      <input type="text" id="input-nome-biblioteca" placeholder="Seu nome no Grêmio">
+      <select id="select-casa-biblioteca">
+        <option value="">Selecione sua Casa</option>
+        <option value="Grifinória">Grifinória</option>
+        <option value="Sonserina">Sonserina</option>
+        <option value="Lufa-Lufa">Lufa-Lufa</option>
+        <option value="Corvinal">Corvinal</option>
+      </select>
+      <button id="btn-entrar-biblioteca" onclick="autenticarBiblioteca()">Entrar</button>
+      <button onclick="fecharPopupBiblioteca()" style="margin-top:12px;background:none;border:none;color:#888;font-size:0.85rem;cursor:pointer;">Cancelar</button>
+    </div>
   </div>
 
   <div id="overlay">
@@ -247,6 +374,74 @@
 
     window.fecharPopup = function() {
       document.getElementById("overlay").classList.remove("active");
+    }
+
+    window.abrirBiblioteca = function() {
+      document.getElementById("janela-biblioteca").classList.add("active");
+    }
+
+    window.fecharBiblioteca = function() {
+      document.getElementById("janela-biblioteca").classList.remove("active");
+    }
+
+    window.abrirPopupBiblioteca = function() {
+      document.getElementById("overlay-biblioteca").classList.add("active");
+      document.getElementById("msg-erro-biblioteca").classList.remove("active");
+      document.getElementById("input-nome-biblioteca").value = "";
+      document.getElementById("select-casa-biblioteca").selectedIndex = 0;
+    }
+
+    window.fecharPopupBiblioteca = function() {
+      document.getElementById("overlay-biblioteca").classList.remove("active");
+    }
+
+    window.autenticarBiblioteca = async function() {
+      const nome = document.getElementById("input-nome-biblioteca").value.trim();
+      const casa = document.getElementById("select-casa-biblioteca").value;
+      const msgErro = document.getElementById("msg-erro-biblioteca");
+      msgErro.classList.remove("active");
+
+      if (!nome || !casa) {
+        msgErro.textContent = "Preencha todos os campos.";
+        msgErro.classList.add("active");
+        return;
+      }
+
+      try {
+        const q = query(
+          collection(db, "Usuário"),
+          where("nome", "==", nome),
+          where("casa", "==", casa)
+        );
+        const snapshot = await getDocs(q);
+
+        if (snapshot.empty) {
+          msgErro.textContent = "Você não tem acesso à Biblioteca.";
+          msgErro.classList.add("active");
+          return;
+        }
+
+        const userDoc = snapshot.docs[0];
+        const userData = userDoc.data();
+        const deviceId = getDeviceId();
+
+        if (userData.deviceId && userData.deviceId !== deviceId) {
+          msgErro.textContent = "Você não tem acesso à Biblioteca.";
+          msgErro.classList.add("active");
+          return;
+        }
+
+        if (!userData.deviceId) {
+          await updateDoc(doc(db, "Usuário", userDoc.id), { deviceId: deviceId });
+        }
+
+        fecharPopupBiblioteca();
+        abrirBiblioteca();
+
+      } catch (e) {
+        msgErro.textContent = "Erro ao conectar. Tente novamente.";
+        msgErro.classList.add("active");
+      }
     }
 
     window.abrirMinisterio = function() {
@@ -309,6 +504,74 @@
 
         fecharPopup();
         abrirMinisterio();
+
+      } catch (e) {
+        msgErro.textContent = "Erro ao conectar. Tente novamente.";
+        msgErro.classList.add("active");
+      }
+    }
+
+    window.abrirPopupBiblioteca = function() {
+      document.getElementById("overlay-biblioteca").classList.add("active");
+      document.getElementById("msg-erro-biblioteca").classList.remove("active");
+      document.getElementById("input-nome-biblioteca").value = "";
+      document.getElementById("select-casa-biblioteca").selectedIndex = 0;
+    }
+
+    window.fecharPopupBiblioteca = function() {
+      document.getElementById("overlay-biblioteca").classList.remove("active");
+    }
+
+    window.abrirBiblioteca = function() {
+      document.getElementById("janela-biblioteca").classList.add("active");
+    }
+
+    window.fecharBiblioteca = function() {
+      document.getElementById("janela-biblioteca").classList.remove("active");
+    }
+
+    window.autenticarBiblioteca = async function() {
+      const nome = document.getElementById("input-nome-biblioteca").value.trim();
+      const casa = document.getElementById("select-casa-biblioteca").value;
+      const msgErro = document.getElementById("msg-erro-biblioteca");
+      msgErro.classList.remove("active");
+
+      if (!nome || !casa) {
+        msgErro.textContent = "Preencha todos os campos.";
+        msgErro.classList.add("active");
+        return;
+      }
+
+      try {
+        const q = query(
+          collection(db, "Usuário"),
+          where("nome", "==", nome),
+          where("casa", "==", casa)
+        );
+        const snapshot = await getDocs(q);
+
+        if (snapshot.empty) {
+          msgErro.textContent = "Você não tem acesso à Biblioteca.";
+          msgErro.classList.add("active");
+          return;
+        }
+
+        const userDoc = snapshot.docs[0];
+        const userData = userDoc.data();
+        const deviceId = getDeviceId();
+
+        if (userData.deviceId && userData.deviceId !== deviceId) {
+          msgErro.textContent = "Você não tem acesso à Biblioteca.";
+          msgErro.classList.add("active");
+          return;
+        }
+
+        if (!userData.deviceId) {
+          await updateDoc(doc(db, "Usuário", userDoc.id), { deviceId: deviceId });
+        }
+
+        fecharPopupBiblioteca();
+        abrirBiblioteca();
 
       } catch (e) {
         msgErro.textContent = "Erro ao conectar. Tente novamente.";
