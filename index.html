@@ -124,6 +124,129 @@
     #popup-embreve h2 { color: #c9a84c; font-family: Georgia, serif; font-size: 1.5rem; margin-bottom: 12px; letter-spacing: 2px; }
     #popup-embreve p { color: #aaa; font-size: 0.85rem; font-family: Georgia, serif; margin-bottom: 20px; }
     #popup-embreve button { background: none; border: 1px solid #c9a84c; color: #c9a84c; border-radius: 6px; padding: 8px 20px; font-size: 0.9rem; cursor: pointer; font-family: Georgia, serif; }
+
+    /* CARROSSEL DE REGRAS */
+    #overlay-regras {
+      display: none; position: fixed; top: 0; left: 0;
+      width: 100%; height: 100%; background: rgba(0,0,0,0.85);
+      z-index: 500; justify-content: center; align-items: center;
+    }
+    #overlay-regras.active { display: flex; }
+
+    #carrossel-regras {
+      position: relative;
+      width: 88vw;
+      max-width: 380px;
+    }
+
+    .pergaminho {
+      display: none;
+      background: linear-gradient(160deg, #f5e6c8, #e8d5a3, #f0deb8);
+      border: 3px solid #8b6914;
+      border-radius: 12px;
+      padding: 28px 22px;
+      box-shadow: 0 0 30px rgba(0,0,0,0.8), inset 0 0 20px rgba(139,105,20,0.2);
+      position: relative;
+      font-family: Georgia, serif;
+      color: #3a2200;
+      text-align: center;
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+
+    .pergaminho.active { display: block; }
+
+    .pergaminho::before {
+      content: '';
+      position: absolute;
+      top: 6px; left: 6px; right: 6px; bottom: 6px;
+      border: 1px solid rgba(139,105,20,0.4);
+      border-radius: 8px;
+      pointer-events: none;
+    }
+
+    .pergaminho h1 {
+      font-size: 1.2rem;
+      color: #5a1a00;
+      margin-bottom: 8px;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+    }
+
+    .pergaminho h2 {
+      font-size: 1rem;
+      color: #7a2800;
+      margin: 12px 0 8px;
+      border-bottom: 1px solid #8b6914;
+      padding-bottom: 4px;
+    }
+
+    .pergaminho p {
+      font-size: 0.82rem;
+      line-height: 1.6;
+      margin-bottom: 8px;
+      color: #3a2200;
+    }
+
+    .pergaminho .decreto {
+      font-size: 0.95rem;
+      font-weight: bold;
+      color: #7a2800;
+      margin: 8px 0 4px;
+    }
+
+    .pergaminho ul {
+      text-align: left;
+      padding-left: 18px;
+      font-size: 0.82rem;
+      line-height: 1.7;
+      color: #3a2200;
+    }
+
+    .pergaminho .rodape {
+      margin-top: 14px;
+      font-size: 0.78rem;
+      font-style: italic;
+      color: #8b6914;
+    }
+
+    .setas-carrossel {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 14px;
+    }
+
+    .seta-btn {
+      background: rgba(139,105,20,0.8);
+      border: 2px solid #c9a84c;
+      color: #fff8e7;
+      border-radius: 50%;
+      width: 42px; height: 42px;
+      font-size: 1.2rem;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    .seta-btn:disabled { opacity: 0.3; cursor: default; }
+
+    .indicador-pagina {
+      color: #c9a84c;
+      font-family: Georgia, serif;
+      font-size: 0.85rem;
+    }
+
+    #btn-fechar-regras {
+      position: absolute;
+      top: -16px; right: -16px;
+      background: #8b6914;
+      border: 2px solid #c9a84c;
+      color: #fff8e7;
+      border-radius: 50%;
+      width: 36px; height: 36px;
+      font-size: 1rem;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+    }
     #janela-ministerio {
       display: none;
       position: fixed;
@@ -318,6 +441,7 @@
     <img src="imagens/íconejornal.png" alt="Jornal" onclick="abrirPopup()">
     <img src="imagens/inconelivros.png" alt="Livros" onclick="abrirPopupBiblioteca()">
     <img src="imagens/iconefilmes.png" alt="Filmes" onclick="mostrarEmBreve()">
+    <img src="imagens/iconeregras.png" alt="Regras" onclick="abrirRegras()">
   </div>
 
   <div id="video-container">
@@ -362,6 +486,113 @@
         <a href="https://drive.google.com/file/d/12lJVp5Ifqx-0V5rvVnzGbu2zeO5e836l/view" target="_blank">
           <img class="capa-livro" src="imagens/HARRY POTTER E A CRIANÇA AMALDIÇOADA.jpg" alt="Criança Amaldiçoada">
         </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- CARROSSEL DE REGRAS -->
+  <div id="overlay-regras">
+    <div id="carrossel-regras">
+      <button id="btn-fechar-regras" onclick="fecharRegras()">✕</button>
+
+      <!-- Pergaminho 1 -->
+      <div class="pergaminho active">
+        <h1>🏰 CasteloBruxo 🏰</h1>
+        <p>💥🧙‍♂️🧙‍♀️</p>
+        <p><em>"Não são as nossas habilidades que revelam quem realmente somos. São as nossas escolhas."</em></p>
+        <h2>Boas-vindas ao nosso Grêmio</h2>
+        <p>Requisitos necessários para ingresso:</p>
+        <ul>
+          <li>Membro ativo</li>
+          <li>Deck nível 40</li>
+          <li>Rank PLATINA na arena</li>
+          <li>Realizar missões diárias do grêmio</li>
+        </ul>
+        <p class="rodape">📜 Proclamação — Decreto Educacional</p>
+      </div>
+
+      <!-- Pergaminho 2 -->
+      <div class="pergaminho">
+        <h2>📜 Decreto Educacional</h2>
+        <p class="decreto">👉🏻 N° 01 — Inatividade</p>
+        <p>Diariamente será revisado todos os membros da guilda:</p>
+        <ul>
+          <li><strong>3 dias</strong> de inatividade sem comunicado aos líderes → retirado do grêmio e do grupo.</li>
+          <li><strong>5 dias</strong> de inatividade mesmo com comunicado → retirado do grêmio e do grupo.</li>
+        </ul>
+        <p class="rodape">📜 Proclamação</p>
+      </div>
+
+      <!-- Pergaminho 3 -->
+      <div class="pergaminho">
+        <h2>📜 Decreto Educacional</h2>
+        <p class="decreto">👉🏻 N° 02 — Missões do Grêmio</p>
+        <p>Contribuição nas missões do grêmio, realizando:</p>
+        <ul>
+          <li>Boss diariamente ao máximo em grupo (rank mundial)</li>
+          <li>Quizz; ou</li>
+          <li>Baile do grêmio</li>
+        </ul>
+        <p class="rodape">📜 Proclamação</p>
+      </div>
+
+      <!-- Pergaminho 4 -->
+      <div class="pergaminho">
+        <h2>📜 Decreto Educacional</h2>
+        <p class="decreto">👉🏻 N° 03 — Convivência</p>
+        <ul>
+          <li>Interagir amigavelmente com os membros sem realizar tumulto ou denegrindo participantes.</li>
+          <li>Realizar aulas, floresta e eventos ao máximo com participantes do grêmio.</li>
+        </ul>
+        <p class="rodape">📜 Proclamação</p>
+      </div>
+
+      <!-- Pergaminho 5 -->
+      <div class="pergaminho">
+        <h2>📜 Decreto Educacional</h2>
+        <p class="decreto">👉🏻 N° 04 — Arena</p>
+        <p>Estarem dispostos com o crescimento do grêmio realizando:</p>
+        <ul>
+          <li>Duelos na arena</li>
+          <li>Buscar membros ativos</li>
+          <li>Fazer o possível para estarem no rank</li>
+        </ul>
+        <p class="rodape">📜 Proclamação</p>
+      </div>
+
+      <!-- Pergaminho 6 -->
+      <div class="pergaminho">
+        <h2>📜 Decreto Educacional</h2>
+        <p class="decreto">👉🏻 N° 05 — Conhecimento</p>
+        <p>DIVIDIR CONHECIMENTOS O MÁXIMO POSSÍVEL COM OS MEMBROS DO GRÊMIO.</p>
+        <br>
+        <p class="decreto">👉🏻 N° 06 — Eventos do Grêmio</p>
+        <p>Quiz e Baile — de quintas às terças:</p>
+        <ul>
+          <li>Sala criada às 15:00 e 21:30, início às 21:35</li>
+          <li>Permitido convite de amigos fora do grêmio</li>
+          <li>Quartas-feiras: folga para administração e novidades do jogo</li>
+        </ul>
+        <p class="rodape">📜 Proclamação</p>
+      </div>
+
+      <!-- Pergaminho 7 -->
+      <div class="pergaminho">
+        <h2>🎴 Cartas Grátis</h2>
+        <p>Todos os dias abaixo:</p>
+        <ul>
+          <li><strong>Segunda-feira:</strong> Matagot na saída da sala de Transfiguração — 18:00 às 22:00</li>
+          <li><strong>Quarta-feira:</strong> Livro Monstruoso dos Monstros na sala de História da Magia 1</li>
+        </ul>
+        <br>
+        <p style="font-weight:bold; color:#5a1a00;">VAMOS TORNAR O CASTELOBRUXO O MAIOR GRÊMIO BRUXO DO BRASIL!</p>
+        <p>CONTO COM TODOS. 🧙‍♂️ MAL FEITO, FEITO!! 🧙‍♀️</p>
+      </div>
+
+      <div class="setas-carrossel">
+        <button class="seta-btn" id="seta-esq" onclick="mudarPergaminho(-1)">◀</button>
+        <span class="indicador-pagina" id="indicador">1 / 7</span>
+        <button class="seta-btn" id="seta-dir" onclick="mudarPergaminho(1)">▶</button>
       </div>
     </div>
   </div>
@@ -678,6 +909,37 @@
         msgErro.textContent = "Erro ao conectar. Tente novamente.";
         msgErro.classList.add("active");
       }
+    }
+
+    // CARROSSEL DE REGRAS
+    let pergaminhoAtual = 0;
+    const totalPergaminhos = 7;
+
+    window.abrirRegras = function() {
+      pergaminhoAtual = 0;
+      atualizarCarrossel();
+      document.getElementById("overlay-regras").classList.add("active");
+    }
+
+    window.fecharRegras = function() {
+      document.getElementById("overlay-regras").classList.remove("active");
+    }
+
+    window.mudarPergaminho = function(direcao) {
+      pergaminhoAtual += direcao;
+      if (pergaminhoAtual < 0) pergaminhoAtual = 0;
+      if (pergaminhoAtual >= totalPergaminhos) pergaminhoAtual = totalPergaminhos - 1;
+      atualizarCarrossel();
+    }
+
+    function atualizarCarrossel() {
+      const pergaminhos = document.querySelectorAll(".pergaminho");
+      pergaminhos.forEach((p, i) => {
+        p.classList.toggle("active", i === pergaminhoAtual);
+      });
+      document.getElementById("indicador").textContent = (pergaminhoAtual + 1) + " / " + totalPergaminhos;
+      document.getElementById("seta-esq").disabled = pergaminhoAtual === 0;
+      document.getElementById("seta-dir").disabled = pergaminhoAtual === totalPergaminhos - 1;
     }
   </script>
 
