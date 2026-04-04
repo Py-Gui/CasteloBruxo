@@ -1010,6 +1010,7 @@
 
     let audioMutado = true;
     let vimeoPlayer = null;
+    let audioBibliotecaMutado = false;
 
     function voltarInicio() {
       // Esconde tela de notícias e biblioteca, volta para tela inicial
@@ -1038,6 +1039,24 @@
 
     function toggleAudio() {
       const btn = document.getElementById('btn-audio');
+      const telaBib = document.getElementById('video-biblioteca');
+
+      // Se a tela da biblioteca está ativa, controla o áudio do Panda
+      if (telaBib.style.display === 'block') {
+        const audioEl = document.getElementById('yt-audio-biblioteca');
+        if (!audioBibliotecaMutado) {
+          audioEl.src = '';
+          btn.classList.add('mudo');
+          audioBibliotecaMutado = true;
+        } else {
+          audioEl.src = 'https://player-vz-4bec1c09-0aa.tv.pandavideo.com.br/embed/?v=7461baa4-5327-4bed-80cd-e075b6ab3320&autoplay=1&loop=1';
+          btn.classList.remove('mudo');
+          audioBibliotecaMutado = false;
+        }
+        return;
+      }
+
+      // Caso contrário, controla o Vimeo da tela de notícias
       if (!vimeoPlayer) return;
       if (audioMutado) {
         vimeoPlayer.setVolume(1);
@@ -1083,7 +1102,9 @@
       document.getElementById('brasoes-container').style.display = 'none';
       document.getElementById('posters-wrapper').style.display = 'none';
       document.getElementById('btn-voltar').style.display = 'block';
-      document.getElementById('btn-audio').style.display = 'none';
+      document.getElementById('btn-audio').style.display = 'flex';
+      document.getElementById('btn-audio').classList.remove('mudo');
+      audioBibliotecaMutado = false;
     }
 
     function fecharBiblioteca() {
