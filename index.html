@@ -108,7 +108,22 @@
     }
     #msg-erro-biblioteca { color: #ff6b6b; font-size: 0.82rem; margin-bottom: 10px; display: none; }
     #msg-erro-biblioteca.active { display: block; }
-    /* JANELA MINISTERIO */
+
+    /* EM BREVE */
+    #overlay-embreve {
+      display: none; position: fixed; top: 0; left: 0;
+      width: 100%; height: 100%; background: rgba(0,0,0,0.75);
+      z-index: 500; justify-content: center; align-items: center;
+    }
+    #overlay-embreve.active { display: flex; }
+    #popup-embreve {
+      background: #1a1a2e; border: 2px solid #c9a84c; border-radius: 12px;
+      padding: 36px 28px; width: 80vw; max-width: 320px; text-align: center;
+      box-shadow: 0 0 30px rgba(201,168,76,0.3);
+    }
+    #popup-embreve h2 { color: #c9a84c; font-family: Georgia, serif; font-size: 1.5rem; margin-bottom: 12px; letter-spacing: 2px; }
+    #popup-embreve p { color: #aaa; font-size: 0.85rem; font-family: Georgia, serif; margin-bottom: 20px; }
+    #popup-embreve button { background: none; border: 1px solid #c9a84c; color: #c9a84c; border-radius: 6px; padding: 8px 20px; font-size: 0.9rem; cursor: pointer; font-family: Georgia, serif; }
     #janela-ministerio {
       display: none;
       position: fixed;
@@ -302,6 +317,7 @@
   <div id="icons-container">
     <img src="imagens/íconejornal.png" alt="Jornal" onclick="abrirPopup()">
     <img src="imagens/inconelivros.png" alt="Livros" onclick="abrirPopupBiblioteca()">
+    <img src="imagens/iconefilmes.png" alt="Filmes" onclick="mostrarEmBreve()">
   </div>
 
   <div id="video-container">
@@ -347,6 +363,15 @@
           <img class="capa-livro" src="imagens/HARRY POTTER E A CRIANÇA AMALDIÇOADA.jpg" alt="Criança Amaldiçoada">
         </a>
       </div>
+    </div>
+  </div>
+
+  <!-- OVERLAY EM BREVE -->
+  <div id="overlay-embreve">
+    <div id="popup-embreve">
+      <h2>🎬 Em Breve</h2>
+      <p>Esta área estará disponível em breve para os membros do Grêmio CasteloBruxo.</p>
+      <button onclick="fecharEmBreve()">Fechar</button>
     </div>
   </div>
 
@@ -518,6 +543,14 @@
 
     window.fecharMinisterio = function() {
       document.getElementById("janela-ministerio").classList.remove("active");
+    }
+
+    window.mostrarEmBreve = function() {
+      document.getElementById("overlay-embreve").classList.add("active");
+    }
+
+    window.fecharEmBreve = function() {
+      document.getElementById("overlay-embreve").classList.remove("active");
     }
 
     window.abrirPlayer = function(src) {
