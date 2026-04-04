@@ -7,72 +7,173 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <title>CasteloBruxo</title>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    html, body {
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      background: #000;
-    }
-
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { width: 100%; height: 100%; overflow: hidden; background: #000; }
     #video-container {
-      position: fixed;
-      top: 50%;
-      left: 50%;
+      position: fixed; top: 50%; left: 50%;
       transform: translate(-50%, -50%);
-      width: 177.78vh;
-      height: 56.25vw;
-      min-width: 100%;
-      min-height: 100%;
-      z-index: 0;
+      width: 177.78vh; height: 56.25vw;
+      min-width: 100%; min-height: 100%; z-index: 0;
     }
-
     #video-container iframe {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      border: none;
-      pointer-events: none;
+      position: absolute; top: 0; left: 0;
+      width: 100%; height: 100%; border: none; pointer-events: none;
     }
-
     #icons-container {
-      position: fixed;
-      top: 16px;
-      right: 8px;
-      z-index: 10;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
+      position: fixed; top: 16px; right: 0px;
+      z-index: 10; display: flex; flex-direction: column; gap: 12px;
     }
-
-    #icons-container img {
-      width: 80px;
-      height: 80px;
-      object-fit: contain;
-      cursor: pointer;
+    #icons-container img { width: 100px; height: 100px; object-fit: contain; cursor: pointer; }
+    #overlay {
+      display: none; position: fixed; top: 0; left: 0;
+      width: 100%; height: 100%; background: rgba(0,0,0,0.75);
+      z-index: 100; justify-content: center; align-items: center;
     }
+    #overlay.active { display: flex; }
+    #popup {
+      background: #1a1a2e; border: 2px solid #c9a84c; border-radius: 12px;
+      padding: 28px 24px; width: 88vw; max-width: 360px; text-align: center;
+      box-shadow: 0 0 30px rgba(201,168,76,0.3);
+    }
+    #popup h2 { color: #c9a84c; font-family: Georgia, serif; font-size: 1.2rem; margin-bottom: 4px; letter-spacing: 1px; }
+    #popup p.subtitulo { color: #aaa; font-size: 0.78rem; margin-bottom: 20px; font-family: Georgia, serif; }
+    #popup input, #popup select {
+      width: 100%; padding: 10px 14px; margin-bottom: 14px;
+      border-radius: 8px; border: 1px solid #c9a84c;
+      background: #0f0f1e; color: #fff; font-size: 0.95rem; outline: none;
+    }
+    #popup select option { background: #0f0f1e; color: #fff; }
+    #popup button#btn-entrar {
+      width: 100%; padding: 12px; background: #c9a84c; color: #1a1a2e;
+      border: none; border-radius: 8px; font-size: 1rem; font-weight: bold;
+      cursor: pointer; font-family: Georgia, serif; letter-spacing: 1px;
+    }
+    #popup button#btn-entrar:active { opacity: 0.85; }
+    #popup button#btn-fechar { margin-top: 12px; background: none; border: none; color: #888; font-size: 0.85rem; cursor: pointer; }
+    #msg-erro { color: #ff6b6b; font-size: 0.82rem; margin-bottom: 10px; display: none; }
+    #msg-erro.active { display: block; }
   </style>
 </head>
 <body>
 
   <div id="icons-container">
-    <img src="imagens/íconejornal.png" alt="Jornal">
+    <img src="imagens/íconejornal.png" alt="Jornal" onclick="abrirPopup()">
   </div>
 
   <div id="video-container">
     <iframe
       src="https://player.vimeo.com/video/1178003266?autoplay=1&loop=1&muted=1&background=1&controls=0"
-      allow="autoplay; fullscreen"
-      allowfullscreen>
+      allow="autoplay; fullscreen" allowfullscreen>
     </iframe>
   </div>
+
+  <div id="overlay">
+    <div id="popup">
+      <h2>⚡ Ministério da Magia</h2>
+      <p class="subtitulo">Área restrita aos membros do Grêmio CasteloBruxo</p>
+      <p id="msg-erro"></p>
+      <input type="text" id="input-nome" placeholder="Seu nome no Grêmio">
+      <select id="select-casa">
+        <option value="">Selecione sua Casa</option>
+        <option value="Grifinória">Grifinória</option>
+        <option value="Sonserina">Sonserina</option>
+        <option value="Lufa-Lufa">Lufa-Lufa</option>
+        <option value="Corvinal">Corvinal</option>
+      </select>
+      <input type="password" id="input-senha" placeholder="Senha">
+      <button id="btn-entrar" onclick="autenticar()">Entrar</button>
+      <button id="btn-fechar" onclick="fecharPopup()">Cancelar</button>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getFirestore, collection, query, where, getDocs, updateDoc, doc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyC8wPuJv9kxBhnk0518Wbuwt-5Z_WrkUX0",
+      authDomain: "freud-pesquisa.firebaseapp.com",
+      projectId: "freud-pesquisa",
+      storageBucket: "freud-pesquisa.firebasestorage.app",
+      messagingSenderId: "416915356153",
+      appId: "1:416915356153:web:d865e6f7780e4f682aa528"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    function getDeviceId() {
+      let deviceId = localStorage.getItem("deviceId");
+      if (!deviceId) {
+        deviceId = crypto.randomUUID();
+        localStorage.setItem("deviceId", deviceId);
+      }
+      return deviceId;
+    }
+
+    window.abrirPopup = function() {
+      document.getElementById("overlay").classList.add("active");
+      document.getElementById("msg-erro").classList.remove("active");
+      document.getElementById("input-nome").value = "";
+      document.getElementById("input-senha").value = "";
+      document.getElementById("select-casa").value = "";
+    }
+
+    window.fecharPopup = function() {
+      document.getElementById("overlay").classList.remove("active");
+    }
+
+    window.autenticar = async function() {
+      const nome = document.getElementById("input-nome").value.trim();
+      const casa = document.getElementById("select-casa").value;
+      const senha = document.getElementById("input-senha").value.trim();
+      const msgErro = document.getElementById("msg-erro");
+      msgErro.classList.remove("active");
+
+      if (!nome || !casa || !senha) {
+        msgErro.textContent = "Preencha todos os campos.";
+        msgErro.classList.add("active");
+        return;
+      }
+
+      try {
+        const q = query(
+          collection(db, "Usuário"),
+          where("nome", "==", nome),
+          where("casa", "==", casa),
+          where("senha", "==", senha)
+        );
+        const snapshot = await getDocs(q);
+
+        if (snapshot.empty) {
+          msgErro.textContent = "Nome, casa ou senha incorretos.";
+          msgErro.classList.add("active");
+          return;
+        }
+
+        const userDoc = snapshot.docs[0];
+        const userData = userDoc.data();
+        const deviceId = getDeviceId();
+
+        if (userData.deviceId && userData.deviceId !== deviceId) {
+          msgErro.textContent = "Acesso negado. Este membro já está registrado em outro dispositivo.";
+          msgErro.classList.add("active");
+          return;
+        }
+
+        if (!userData.deviceId) {
+          await updateDoc(doc(db, "Usuário", userDoc.id), { deviceId: deviceId });
+        }
+
+        fecharPopup();
+        alert("Bem-vindo(a), " + nome + "! Acesso ao Ministério da Magia concedido.");
+
+      } catch (e) {
+        msgErro.textContent = "Erro ao conectar. Tente novamente.";
+        msgErro.classList.add("active");
+      }
+    }
+  </script>
 
 </body>
 </html>
