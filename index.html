@@ -393,10 +393,13 @@
       pointer-events: none;
     }
     #video-biblioteca iframe.audio {
-      display: none;
-      width: 0;
-      height: 0;
+      position: fixed;
+      left: -9999px;
+      top: -9999px;
+      width: 1px;
+      height: 1px;
       border: none;
+      opacity: 0;
     }
     @media (min-width: 1024px) {
       #video-biblioteca { display: none !important; }
@@ -1045,7 +1048,7 @@
       if (telaBib.style.display === 'block') {
         const audioEl = document.getElementById('yt-audio-biblioteca');
         if (!audioBibliotecaMutado) {
-          audioEl.src = '';
+          audioEl.src = 'https://player-vz-4bec1c09-0aa.tv.pandavideo.com.br/embed/?v=7461baa4-5327-4bed-80cd-e075b6ab3320&autoplay=1&loop=1&muted=1';
           btn.classList.add('mudo');
           audioBibliotecaMutado = true;
         } else {
