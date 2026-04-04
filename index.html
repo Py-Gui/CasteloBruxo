@@ -527,6 +527,11 @@
 </head>
 <body>
 
+  <!-- ÁUDIO TELA INICIAL -->
+  <audio id="audio-inicial" loop>
+    <source src="https://drive.google.com/uc?export=download&id=1vPO4KfkqMBaup-Qi3lRIP0xMBQWwpf-w" type="audio/mpeg">
+  </audio>
+
   <!-- TELA DE CARREGAMENTO -->
   <div id="loading-screen">
     <div class="varinha-container">
@@ -563,6 +568,9 @@
 
   <!-- JANELA BIBLIOTECA -->
   <div id="janela-biblioteca">
+    <audio id="audio-biblioteca" loop>
+      <source src="https://drive.google.com/uc?export=download&id=1W9-SELo5uIxg8c7evJ7CqN3gOzj-eVF-" type="audio/mpeg">
+    </audio>
     <button id="btn-voltar-biblioteca" onclick="fecharBiblioteca()">← Voltar</button>
     <div id="video-biblioteca">
       <iframe
@@ -718,6 +726,9 @@
 
   <!-- JANELA MINISTERIO -->
   <div id="janela-ministerio">
+    <audio id="audio-ministerio" loop>
+      <source src="https://drive.google.com/uc?export=download&id=12oaeOeH_GDzwgX-ADb27eS4OGjnRNlGP" type="audio/mpeg">
+    </audio>
     <button id="btn-voltar" onclick="fecharMinisterio()">← Voltar</button>
     <div id="video-ministerio">
       <iframe
@@ -826,10 +837,16 @@
 
     window.abrirBiblioteca = function() {
       document.getElementById("janela-biblioteca").classList.add("active");
+      document.getElementById("audio-inicial").pause();
+      document.getElementById("audio-biblioteca").play();
     }
 
     window.fecharBiblioteca = function() {
       document.getElementById("janela-biblioteca").classList.remove("active");
+      const audio = document.getElementById("audio-biblioteca");
+      audio.pause();
+      audio.currentTime = 0;
+      document.getElementById("audio-inicial").play();
     }
 
     window.abrirPopupBiblioteca = function() {
@@ -894,10 +911,16 @@
 
     window.abrirMinisterio = function() {
       document.getElementById("janela-ministerio").classList.add("active");
+      document.getElementById("audio-inicial").pause();
+      document.getElementById("audio-ministerio").play();
     }
 
     window.fecharMinisterio = function() {
       document.getElementById("janela-ministerio").classList.remove("active");
+      const audio = document.getElementById("audio-ministerio");
+      audio.pause();
+      audio.currentTime = 0;
+      document.getElementById("audio-inicial").play();
     }
 
     window.mostrarEmBreve = function() {
@@ -988,14 +1011,6 @@
       document.getElementById("overlay-biblioteca").classList.remove("active");
     }
 
-    window.abrirBiblioteca = function() {
-      document.getElementById("janela-biblioteca").classList.add("active");
-    }
-
-    window.fecharBiblioteca = function() {
-      document.getElementById("janela-biblioteca").classList.remove("active");
-    }
-
     window.autenticarBiblioteca = async function() {
       const nome = document.getElementById("input-nome-biblioteca").value.trim();
       const casa = document.getElementById("select-casa-biblioteca").value;
@@ -1082,6 +1097,7 @@
         const loading = document.getElementById("loading-screen");
         loading.classList.add("hide");
         setTimeout(() => loading.style.display = "none", 800);
+        document.getElementById("audio-inicial").play().catch(() => {});
       }, 2500);
     });
   </script>
