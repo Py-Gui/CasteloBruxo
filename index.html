@@ -20,7 +20,7 @@
 
     /* Bloqueia acesso em desktop */
     #desktop-block {
-      display: none;
+      display: none !important;
       position: fixed;
       inset: 0;
       background: #0a0008;
@@ -96,15 +96,7 @@
       z-index: 10;
     }
 
-    @media (min-width: 768px) {
-      #desktop-block {
-        display: flex;
-      }
-      #video-container,
-      #overlay {
-        display: none;
-      }
-    }
+
 
     /* Ícone do jornal */
     #jornal-icon {
@@ -124,7 +116,7 @@
       filter: drop-shadow(0 4px 14px rgba(201,168,76,0.6));
     }
 
-    @media (min-width: 768px) {
+    @media (min-width: 1024px) {
       #jornal-icon { display: none; }
     }
 
@@ -373,7 +365,7 @@
       pointer-events: none;
     }
 
-    @media (min-width: 768px) {
+    @media (min-width: 1024px) {
       #video-noticias { display: none !important; }
     }
 
@@ -612,7 +604,7 @@
       transform: scale(1.1) rotate(3deg);
       filter: drop-shadow(0 4px 14px rgba(201,168,76,0.6));
     }
-    @media (min-width: 768px) {
+    @media (min-width: 1024px) {
       #livros-icon { display: none; }
     }
 
@@ -631,7 +623,7 @@
       transform: scale(1.1) rotate(-3deg);
       filter: drop-shadow(0 4px 14px rgba(201,168,76,0.6));
     }
-    @media (min-width: 768px) {
+    @media (min-width: 1024px) {
       #filmes-icon { display: none; }
     }
 
@@ -650,7 +642,7 @@
       transform: scale(1.1) rotate(3deg);
       filter: drop-shadow(0 4px 14px rgba(201,168,76,0.6));
     }
-    @media (min-width: 768px) {
+    @media (min-width: 1024px) {
       #regras-icon { display: none; }
     }
 
@@ -690,6 +682,7 @@
       width: 195px;
       animation: floatBrasao 3.5s ease-in-out infinite 0.4s;
       filter: drop-shadow(0 4px 10px rgba(0,0,0,0.6));
+      margin-top: -20px;
     }
     #brasao-grifinoria {
       width: 155px;
@@ -712,7 +705,7 @@
       50%       { filter: drop-shadow(0 0 22px rgba(30,90,200,1)) drop-shadow(0 0 8px rgba(100,160,255,0.8)); }
     }
 
-    @media (min-width: 768px) {
+    @media (min-width: 1024px) {
       #brasoes-container { display: none; }
     }
   </style>
