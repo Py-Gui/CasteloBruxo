@@ -528,19 +528,20 @@
     }
     #modal-video2.active {
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       justify-content: center;
     }
     #modal-video2-inner {
       width: 100%;
-      height: 100%;
+      height: auto;
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       justify-content: center;
     }
     #modal-video2-inner iframe {
       width: 100%;
-      height: 100%;
+      aspect-ratio: 9 / 16;
+      max-height: 100vh;
       border: none;
       display: block;
     }
