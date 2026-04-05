@@ -69,6 +69,16 @@
       pointer-events: none;
     }
 
+    #brasao-sonserina {
+      position: fixed;
+      top: 280px;
+      left: 5%;
+      width: 300px;
+      z-index: 10;
+      animation: flutuar-brasao 3.5s ease-in-out infinite;
+      pointer-events: none;
+    }
+
     @keyframes flutuar-brasao {
       0%, 100% { transform: translateX(-50%) translateY(0px); }
       50% { transform: translateX(-50%) translateY(-12px); }
@@ -586,6 +596,7 @@
   </div>
 
   <img id="brasao-corvinal" src="imagens/corvinal.png" alt="Corvinal">
+  <img id="brasao-sonserina" src="imagens/sonserina.png" alt="Sonserina">
 
   <div id="icons-container">
     <img src="imagens/íconejornal.png" alt="Jornal" onclick="abrirPopup()">
