@@ -60,37 +60,45 @@
     /* BRASÕES */
     #brasoes-container {
       position: fixed;
-      top: 60%;
+      top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
       z-index: 10;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 0px;
       pointer-events: none;
-      width: fit-content;
+      width: 420px;
+      height: 420px;
     }
 
     #brasao-corvinal {
+      position: absolute;
       width: 350px;
+      top: 0px;
+      left: 0px;
       animation: flutuar-brasao 3s ease-in-out infinite;
     }
 
     #brasao-sonserina {
+      position: absolute;
       width: 200px;
+      top: 0px;
+      right: 0px;
       animation: flutuar-brasao 3.5s ease-in-out infinite;
     }
 
-    #brasao-lufalufa {
-      width: 200px;
-      animation: flutuar-brasao 3.8s ease-in-out infinite;
-      margin-left: 90px;
+    #brasao-grifinoria {
+      position: absolute;
+      width: 280px;
+      bottom: 0px;
+      left: 0px;
+      animation: flutuar-brasao 4s ease-in-out infinite;
     }
 
-    #brasao-grifinoria {
+    #brasao-lufalufa {
+      position: absolute;
       width: 200px;
-      animation: flutuar-brasao 4s ease-in-out infinite;
-      margin-right: 170px;
+      bottom: 0px;
+      right: 0px;
+      animation: flutuar-brasao 3.8s ease-in-out infinite;
     }
 
     @keyframes flutuar-brasao {
