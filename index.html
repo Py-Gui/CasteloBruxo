@@ -58,50 +58,41 @@
     #icons-container img { width: 70px; height: 70px; object-fit: contain; cursor: pointer; }
 
     /* BRASÕES */
-    #brasao-corvinal {
+    #brasoes-container {
       position: fixed;
-      top: 30px;
+      top: 50%;
       left: 50%;
-      transform: translateX(-50%);
-      width: 400px;
+      transform: translate(-50%, -50%);
       z-index: 10;
-      animation: flutuar-brasao 3s ease-in-out infinite, pulso-azul 2s ease-in-out infinite;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
       pointer-events: none;
+    }
+
+    #brasao-corvinal {
+      width: 200px;
+      animation: flutuar-brasao 3s ease-in-out infinite;
     }
 
     #brasao-sonserina {
-      position: fixed;
-      top: 220px;
-      left: 24%;
-      width: 250px;
-      z-index: 10;
-      animation: flutuar-brasao 3.5s ease-in-out infinite;
-      pointer-events: none;
-    }
-
-    #brasao-grifinoria {
-      position: fixed;
-      top: 390px;
-      right: -22%;
       width: 200px;
-      z-index: 10;
-      animation: flutuar-brasao 4s ease-in-out infinite;
-      pointer-events: none;
+      animation: flutuar-brasao 3.5s ease-in-out infinite;
     }
 
     #brasao-lufalufa {
-      position: fixed;
-      top: 520px;
-      left: 33%;
-      width: 150px;
-      z-index: 10;
+      width: 200px;
       animation: flutuar-brasao 3.8s ease-in-out infinite;
-      pointer-events: none;
+    }
+
+    #brasao-grifinoria {
+      width: 200px;
+      animation: flutuar-brasao 4s ease-in-out infinite;
     }
 
     @keyframes flutuar-brasao {
-      0%, 100% { transform: translateX(-50%) translateY(0px); }
-      50% { transform: translateX(-50%) translateY(-12px); }
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-12px); }
     }
 
     @keyframes pulso-azul {
@@ -615,10 +606,12 @@
     <div class="loading-subtexto">🏰 CasteloBruxo 🏰</div>
   </div>
 
-  <img id="brasao-corvinal" src="imagens/corvinal.png" alt="Corvinal">
-  <img id="brasao-sonserina" src="imagens/sonserina.png" alt="Sonserina">
-  <img id="brasao-grifinoria" src="imagens/grifinoria.png" alt="Grifinória">
-  <img id="brasao-lufalufa" src="imagens/lufalufa.png" alt="Lufa-Lufa">
+  <div id="brasoes-container">
+    <img id="brasao-corvinal" src="imagens/corvinal.png" alt="Corvinal">
+    <img id="brasao-sonserina" src="imagens/sonserina.png" alt="Sonserina">
+    <img id="brasao-lufalufa" src="imagens/lufalufa.png" alt="Lufa-Lufa">
+    <img id="brasao-grifinoria" src="imagens/grifinoria.png" alt="Grifinória">
+  </div>
 
   <div id="icons-container">
     <img src="imagens/íconejornal.png" alt="Jornal" onclick="abrirPopup()">
