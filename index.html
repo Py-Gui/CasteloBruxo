@@ -84,6 +84,23 @@
       0%, 100% { transform: translateX(-50%) translateY(0px); }
       50% { transform: translateX(-50%) translateY(10px); }
     }
+
+    /* LUZ GIRATÓRIA */
+    #luz-doacoes {
+      position: fixed;
+      top: calc(16px + 70px * 4);
+      right: -25px;
+      z-index: 9;
+      width: 120px;
+      pointer-events: none;
+      animation: girar 4s linear infinite;
+      transform-origin: center center;
+    }
+
+    @keyframes girar {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
     #brasoes-container {
       position: fixed;
       top: 70%;
@@ -652,6 +669,8 @@
     <img id="brasao-lufalufa" src="imagens/lufalufa.png" alt="Lufa-Lufa">
     <img id="brasao-grifinoria" src="imagens/grifinoria.png" alt="Grifinória">
   </div>
+
+  <img id="luz-doacoes" src="imagens/luz.png" alt="Luz">
 
   <div id="icons-container">
     <img src="imagens/íconejornal.png" alt="Jornal" onclick="abrirPopup()">
