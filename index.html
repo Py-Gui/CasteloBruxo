@@ -67,6 +67,23 @@
       z-index: 10;
       pointer-events: none;
     }
+
+    /* SETA */
+    #seta {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 50px;
+      z-index: 10;
+      pointer-events: none;
+      animation: seta-bounce 1.5s ease-in-out infinite;
+    }
+
+    @keyframes seta-bounce {
+      0%, 100% { transform: translateX(-50%) translateY(0px); }
+      50% { transform: translateX(-50%) translateY(10px); }
+    }
     #brasoes-container {
       position: fixed;
       top: 70%;
@@ -627,6 +644,7 @@
   </div>
 
   <img id="logo-castelobruxo" src="imagens/castelobruxo.png" alt="CasteloBruxo">
+  <img id="seta" src="imagens/seta.png" alt="Seta">
 
   <div id="brasoes-container">
     <img id="brasao-corvinal" src="imagens/corvinal.png" alt="Corvinal">
