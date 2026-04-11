@@ -73,7 +73,14 @@
     }
     #icons-container img { width: 70px; height: 70px; object-fit: contain; cursor: pointer; }
 
-    /* FOGOS DE ARTIFÍCIO */
+    /* RAIO MÁGICO */
+    #raio-canvas {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 11;
+      pointer-events: none;
+    }
     #fogos-container {
       position: fixed;
       top: 6px;
@@ -130,7 +137,7 @@
 
     #arte-img-wrapper.abrir {
       top: 0;
-      left: 0;
+      left: -5vw;
       width: 100vw;
       height: 100vh;
       border-radius: 0;
@@ -785,6 +792,8 @@
     <div class="loading-subtexto">🏰 CasteloBruxo 🏰</div>
   </div>
 
+  <canvas id="raio-canvas"></canvas>
+
   <canvas id="fogos-canvas" style="position:fixed;top:0;left:0;width:100px;height:100px;z-index:9;pointer-events:none;overflow:visible;"></canvas>
 
   <img id="brasao-cb" src="imagens/brasaocastelobruxo.png" alt="CasteloBruxo" onclick="abrirArte()">
@@ -811,8 +820,8 @@
   <img id="luz-doacoes" src="imagens/luz.png" alt="Luz">
 
   <div id="icons-container">
-    <img src="imagens/íconejornal.png" alt="Jornal" onclick="abrirPopup()">
-    <img src="imagens/inconelivros.png" alt="Livros" onclick="abrirPopupBiblioteca()">
+    <img id="icone-jornal" src="imagens/íconejornal.png" alt="Jornal" onclick="abrirPopup()">
+    <img id="icone-livros" src="imagens/inconelivros.png" alt="Livros" onclick="abrirPopupBiblioteca()">
     <img src="imagens/iconefilmes.png" alt="Filmes" onclick="mostrarEmBreve()" style="margin-top:-2px;">
     <img src="imagens/iconeregras.png" alt="Regras" onclick="abrirRegras()">
     <img src="imagens/doacoes.png" alt="Doações" onclick="mostrarEmBreve()">
@@ -1314,6 +1323,116 @@
     // CARROSSEL DE REGRAS
     let pergaminhoAtual = 0;
     const totalPergaminhos = 7;
+
+    // RAIO MÁGICO
+    (function() {
+      const canvas = document.getElementById("raio-canvas");
+      const ctx = canvas.getContext("2d");
+      let trocado = false;
+
+      function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+      resizeCanvas();
+      window.addEventListener("resize", resizeCanvas);
+
+      function getCenter(el) {
+        const r = el.getBoundingClientRect();
+        return { x: r.left + r.width / 2, y: r.top + r.height / 2 };
+      }
+
+      function desenharRaio(x1, y1, x2, y2, cor, alpha) {
+        ctx.beginPath();
+        ctx.moveTo(x1, y1);
+        const segmentos = 8;
+        const dx = (x2 - x1) / segmentos;
+        const dy = (y2 - y1) / segmentos;
+        for (let i = 1; i < segmentos; i++) {
+          const nx = x1 + dx * i + (Math.random() - 0.5) * 20;
+          const ny = y1 + dy * i + (Math.random() - 0.5) * 20;
+          ctx.lineTo(nx, ny);
+        }
+        ctx.lineTo(x2, y2);
+        ctx.strokeStyle = cor;
+        ctx.lineWidth = 2;
+        ctx.globalAlpha = alpha;
+        ctx.shadowBlur = 12;
+        ctx.shadowColor = cor;
+        ctx.stroke();
+        ctx.globalAlpha = 1;
+      }
+
+      function trocarIcones() {
+        const jornal = document.getElementById("icone-jornal");
+        const livros = document.getElementById("icone-livros");
+        const container = document.getElementById("icons-container");
+
+        // Flash nos ícones
+        jornal.style.filter = "brightness(3)";
+        livros.style.filter = "brightness(3)";
+        setTimeout(() => {
+          jornal.style.filter = "";
+          livros.style.filter = "";
+
+          // Trocar de lugar
+          if (!trocado) {
+            jornal.parentNode.insertBefore(livros, jornal);
+            // Trocar funções onclick
+            jornal.onclick = abrirPopupBiblioteca;
+            livros.onclick = abrirPopup;
+          } else {
+            jornal.parentNode.insertBefore(jornal, livros);
+            jornal.onclick = abrirPopup;
+            livros.onclick = abrirPopupBiblioteca;
+          }
+          trocado = !trocado;
+        }, 150);
+      }
+
+      function animarRaio() {
+        const brasao = document.getElementById("brasao-cb");
+        const jornal = document.getElementById("icone-jornal");
+        const livros = document.getElementById("icone-livros");
+        if (!brasao || !jornal || !livros) return;
+
+        const origem = getCenter(brasao);
+        const alvo1 = getCenter(jornal);
+        const alvo2 = getCenter(livros);
+
+        let frame = 0;
+        const maxFrames = 18;
+
+        function loop() {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          const progress = frame / maxFrames;
+          const alpha = frame < maxFrames * 0.7 ? 1 : 1 - (progress - 0.7) / 0.3;
+
+          // Raio do brasão ao jornal
+          desenharRaio(origem.x, origem.y, alvo1.x, alvo1.y, "#00cc44", alpha);
+          desenharRaio(origem.x, origem.y, alvo1.x, alvo1.y, "#ffd700", alpha * 0.6);
+
+          // Raio do jornal ao livros
+          if (frame > maxFrames * 0.3) {
+            desenharRaio(alvo1.x, alvo1.y, alvo2.x, alvo2.y, "#00cc44", alpha);
+            desenharRaio(alvo1.x, alvo1.y, alvo2.x, alvo2.y, "#ffd700", alpha * 0.6);
+          }
+
+          frame++;
+          if (frame <= maxFrames) {
+            requestAnimationFrame(loop);
+          } else {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            trocarIcones();
+          }
+        }
+        loop();
+      }
+
+      // Dispara a cada 15 segundos
+      setTimeout(animarRaio, 8000);
+      setInterval(animarRaio, 15000);
+    })();
 
     // FOGOS DE ARTIFÍCIO
     (function() {
