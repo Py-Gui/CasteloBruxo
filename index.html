@@ -73,7 +73,14 @@
     }
     #icons-container img { width: 70px; height: 70px; object-fit: contain; cursor: pointer; }
 
-    /* COBRA */
+    /* VENTO AZUL */
+    #vento-canvas {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 12;
+      pointer-events: none;
+    }
     #cobra-canvas {
       position: fixed;
       top: 0; left: 0;
@@ -804,6 +811,7 @@
     <div class="loading-subtexto">🏰 CasteloBruxo 🏰</div>
   </div>
 
+  <canvas id="vento-canvas"></canvas>
   <canvas id="cobra-canvas"></canvas>
   <canvas id="raio-canvas"></canvas>
 
@@ -1336,6 +1344,146 @@
     // CARROSSEL DE REGRAS
     let pergaminhoAtual = 0;
     const totalPergaminhos = 7;
+
+    // VENTO AZUL DA CORVINAL
+    (function() {
+      const canvas = document.getElementById("vento-canvas");
+      const ctx = canvas.getContext("2d");
+      const particulas = [];
+
+      function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+      resizeCanvas();
+      window.addEventListener("resize", resizeCanvas);
+
+      function getCenter(id) {
+        const el = document.getElementById(id);
+        if (!el) return null;
+        const r = el.getBoundingClientRect();
+        return { x: r.left + r.width / 2, y: r.top + r.height / 2 };
+      }
+
+      function tremerBrasao(id) {
+        const el = document.getElementById(id);
+        if (!el) return;
+        let t = 0;
+        const interval = setInterval(() => {
+          const dx = (Math.random() - 0.5) * 12;
+          const dy = (Math.random() - 0.5) * 12;
+          el.style.transform = `translateY(${dy}px) translateX(${dx}px)`;
+          t++;
+          if (t > 10) {
+            clearInterval(interval);
+            el.style.transform = "";
+          }
+        }, 50);
+      }
+
+      function animarVento(origem, destino, brasaoId, onComplete) {
+        const particulas = [];
+        const numParticulas = 25;
+        let frame = 0;
+        const maxFrames = 50;
+        let impacto = false;
+
+        // Criar partículas de vento
+        for (let i = 0; i < numParticulas; i++) {
+          particulas.push({
+            x: origem.x,
+            y: origem.y,
+            delay: i * 1.5,
+            offset: (Math.random() - 0.5) * 30,
+            size: 2 + Math.random() * 4,
+            speed: 0.8 + Math.random() * 0.4
+          });
+        }
+
+        function loop() {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+          const dx = destino.x - origem.x;
+          const dy = destino.y - origem.y;
+          const len = Math.sqrt(dx * dx + dy * dy);
+          const perpX = -dy / len;
+          const perpY = dx / len;
+
+          particulas.forEach(p => {
+            const t = Math.max(0, (frame - p.delay) / (maxFrames * p.speed));
+            if (t <= 0 || t > 1.1) return;
+
+            const x = origem.x + dx * Math.min(t, 1);
+            const y = origem.y + dy * Math.min(t, 1);
+            const wave = Math.sin(t * Math.PI * 5 + p.delay) * p.offset * (1 - t * 0.5);
+
+            const px = x + perpX * wave;
+            const py = y + perpY * wave;
+            const alpha = t < 0.8 ? 1 : 1 - (t - 0.8) / 0.3;
+
+            // Partícula de vento curva
+            ctx.beginPath();
+            ctx.arc(px, py, p.size, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(100, 180, 255, ${alpha * 0.7})`;
+            ctx.shadowBlur = 15;
+            ctx.shadowColor = "#4ab8ff";
+            ctx.fill();
+
+            // Rastro
+            ctx.beginPath();
+            ctx.moveTo(px, py);
+            ctx.lineTo(px - (dx / len) * 15, py - (dy / len) * 15);
+            ctx.strokeStyle = `rgba(150, 210, 255, ${alpha * 0.4})`;
+            ctx.lineWidth = p.size * 0.8;
+            ctx.stroke();
+          });
+
+          // Impacto
+          if (frame > maxFrames * 0.7 && !impacto) {
+            impacto = true;
+            tremerBrasao(brasaoId);
+
+            // Flash azul no destino
+            ctx.beginPath();
+            ctx.arc(destino.x, destino.y, 30, 0, Math.PI * 2);
+            ctx.fillStyle = "rgba(100, 180, 255, 0.6)";
+            ctx.shadowBlur = 30;
+            ctx.shadowColor = "#4ab8ff";
+            ctx.fill();
+          }
+
+          frame++;
+          if (frame <= maxFrames + 10) {
+            requestAnimationFrame(loop);
+          } else {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            if (onComplete) onComplete();
+          }
+        }
+        loop();
+      }
+
+      function iniciarVento() {
+        const corvinal = getCenter("brasao-corvinal");
+        const grifinoria = getCenter("brasao-grifinoria");
+        const lufalufa = getCenter("brasao-lufalufa");
+        const sonserina = getCenter("brasao-sonserina");
+        if (!corvinal || !grifinoria || !lufalufa || !sonserina) return;
+
+        animarVento(corvinal, grifinoria, "brasao-grifinoria", () => {
+          setTimeout(() => {
+            animarVento(corvinal, lufalufa, "brasao-lufalufa", () => {
+              setTimeout(() => {
+                animarVento(corvinal, sonserina, "brasao-sonserina", null);
+              }, 500);
+            });
+          }, 500);
+        });
+      }
+
+      setTimeout(iniciarVento, 12000);
+      setInterval(iniciarVento, 20000);
+    })();
 
     // RAIO VERDE DA SONSERINA
     (function() {
