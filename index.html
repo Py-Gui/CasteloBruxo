@@ -1253,6 +1253,20 @@
       }, 2500);
     });
 
+    // SCROLL - esconde tela inicial ao rolar
+    window.addEventListener("scroll", function() {
+      const scrollY = window.scrollY;
+      const vh = window.innerHeight;
+      const opacity = Math.max(0, 1 - scrollY / (vh * 0.5));
+      document.getElementById("video-container").style.opacity = opacity;
+      document.getElementById("brasoes-container").style.opacity = opacity;
+      document.getElementById("logo-castelobruxo").style.opacity = opacity;
+      document.getElementById("logo-hp").style.opacity = opacity;
+      document.getElementById("seta").style.opacity = opacity;
+      document.getElementById("icons-container").style.opacity = opacity;
+      document.getElementById("luz-doacoes").style.opacity = opacity;
+    });
+
     // Inicia áudio ao primeiro toque do usuário (necessário em mobile)
     document.addEventListener("touchstart", function iniciarAudio() {
       scInicial.play();
