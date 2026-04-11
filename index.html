@@ -822,8 +822,8 @@
   <div id="icons-container">
     <img id="icone-jornal" src="imagens/íconejornal.png" alt="Jornal" onclick="abrirPopup()">
     <img id="icone-livros" src="imagens/inconelivros.png" alt="Livros" onclick="abrirPopupBiblioteca()">
-    <img src="imagens/iconefilmes.png" alt="Filmes" onclick="mostrarEmBreve()" style="margin-top:-2px;">
-    <img src="imagens/iconeregras.png" alt="Regras" onclick="abrirRegras()">
+    <img id="icone-filmes" src="imagens/iconefilmes.png" alt="Filmes" onclick="mostrarEmBreve()" style="margin-top:-2px;">
+    <img id="icone-regras" src="imagens/iconeregras.png" alt="Regras" onclick="abrirRegras()">
     <img src="imagens/doacoes.png" alt="Doações" onclick="mostrarEmBreve()">
   </div>
 
@@ -1328,7 +1328,7 @@
     (function() {
       const canvas = document.getElementById("raio-canvas");
       const ctx = canvas.getContext("2d");
-      let trocado = false;
+      let ciclo = 0; // 0: jornal<>livros, 1: livros<>filmes, 2: filmes<>regras
 
       function resizeCanvas() {
         canvas.width = window.innerWidth;
@@ -1363,42 +1363,36 @@
         ctx.globalAlpha = 1;
       }
 
-      function trocarIcones() {
-        const jornal = document.getElementById("icone-jornal");
-        const livros = document.getElementById("icone-livros");
-        const container = document.getElementById("icons-container");
-
-        // Flash nos ícones
-        jornal.style.filter = "brightness(3)";
-        livros.style.filter = "brightness(3)";
+      function trocarIcones(el1, el2) {
+        el1.style.filter = "brightness(3)";
+        el2.style.filter = "brightness(3)";
         setTimeout(() => {
-          jornal.style.filter = "";
-          livros.style.filter = "";
-
-          // Trocar de lugar
-          if (!trocado) {
-            jornal.parentNode.insertBefore(livros, jornal);
-            // Trocar funções onclick
-            jornal.onclick = abrirPopupBiblioteca;
-            livros.onclick = abrirPopup;
-          } else {
-            jornal.parentNode.insertBefore(jornal, livros);
-            jornal.onclick = abrirPopup;
-            livros.onclick = abrirPopupBiblioteca;
-          }
-          trocado = !trocado;
+          el1.style.filter = "";
+          el2.style.filter = "";
+          // Trocar posição no DOM
+          const parent = el1.parentNode;
+          const next = el1.nextSibling;
+          parent.insertBefore(el1, el2);
+          parent.insertBefore(el2, next);
         }, 150);
       }
 
       function animarRaio() {
         const brasao = document.getElementById("brasao-cb");
-        const jornal = document.getElementById("icone-jornal");
-        const livros = document.getElementById("icone-livros");
-        if (!brasao || !jornal || !livros) return;
+        const pares = [
+          ["icone-jornal", "icone-livros"],
+          ["icone-livros", "icone-filmes"],
+          ["icone-filmes", "icone-regras"]
+        ];
+
+        const [id1, id2] = pares[ciclo];
+        const el1 = document.getElementById(id1);
+        const el2 = document.getElementById(id2);
+        if (!brasao || !el1 || !el2) return;
 
         const origem = getCenter(brasao);
-        const alvo1 = getCenter(jornal);
-        const alvo2 = getCenter(livros);
+        const alvo1 = getCenter(el1);
+        const alvo2 = getCenter(el2);
 
         let frame = 0;
         const maxFrames = 18;
@@ -1408,11 +1402,9 @@
           const progress = frame / maxFrames;
           const alpha = frame < maxFrames * 0.7 ? 1 : 1 - (progress - 0.7) / 0.3;
 
-          // Raio do brasão ao jornal
           desenharRaio(origem.x, origem.y, alvo1.x, alvo1.y, "#00cc44", alpha);
           desenharRaio(origem.x, origem.y, alvo1.x, alvo1.y, "#ffd700", alpha * 0.6);
 
-          // Raio do jornal ao livros
           if (frame > maxFrames * 0.3) {
             desenharRaio(alvo1.x, alvo1.y, alvo2.x, alvo2.y, "#00cc44", alpha);
             desenharRaio(alvo1.x, alvo1.y, alvo2.x, alvo2.y, "#ffd700", alpha * 0.6);
@@ -1423,13 +1415,13 @@
             requestAnimationFrame(loop);
           } else {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            trocarIcones();
+            trocarIcones(el1, el2);
+            ciclo = (ciclo + 1) % 3;
           }
         }
         loop();
       }
 
-      // Dispara a cada 15 segundos
       setTimeout(animarRaio, 8000);
       setInterval(animarRaio, 15000);
     })();
