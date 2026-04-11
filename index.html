@@ -10,7 +10,7 @@
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html { width: 100%; height: 100%; }
-    body { width: 100%; min-height: 200vh; overflow-y: auto; background: #000; }
+    body { width: 100%; height: 100%; overflow: hidden; background: #000; }
 
     #page-wrapper {
       min-height: 200vh;
@@ -1253,32 +1253,12 @@
       }, 2500);
     });
 
-    // SCROLL - esconde tela inicial ao rolar
-    window.addEventListener("scroll", function() {
-      const scrollY = window.scrollY;
-      const vh = window.innerHeight;
-      const opacity = Math.max(0, 1 - scrollY / (vh * 0.5));
-      document.getElementById("video-container").style.opacity = opacity;
-      document.getElementById("brasoes-container").style.opacity = opacity;
-      document.getElementById("logo-castelobruxo").style.opacity = opacity;
-      document.getElementById("logo-hp").style.opacity = opacity;
-      document.getElementById("seta").style.opacity = opacity;
-      document.getElementById("icons-container").style.opacity = opacity;
-      document.getElementById("luz-doacoes").style.opacity = opacity;
-    });
-
     // Inicia áudio ao primeiro toque do usuário (necessário em mobile)
     document.addEventListener("touchstart", function iniciarAudio() {
       scInicial.play();
       document.removeEventListener("touchstart", iniciarAudio);
     }, { once: true });
   </script>
-
-  <!-- DOBRA -->
-  <div style="height: 100vh;"></div>
-  <div id="dobra">
-    <img src="imagens/acastelobruxo.jpeg" alt="Arte CasteloBruxo" style="width:100%; display:block;">
-  </div>
 
 </body>
 </html>
