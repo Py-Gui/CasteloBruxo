@@ -132,16 +132,18 @@
       overflow: hidden;
       opacity: 0;
       z-index: 601;
+      transform: translate(0, 0);
       transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     #arte-img-wrapper.abrir {
-      top: 0;
-      left: -5vw;
-      width: 100vw;
-      height: 100vh;
-      border-radius: 0;
+      top: 50%;
+      left: 50%;
+      width: 95vw;
+      height: 95vh;
+      border-radius: 8px;
       opacity: 1;
+      transform: translate(-50%, -50%);
     }
 
     #arte-img-wrapper.fechar {
@@ -151,6 +153,7 @@
       height: 50px;
       border-radius: 50%;
       opacity: 0;
+      transform: translate(0, 0);
     }
 
     #arte-img-wrapper img {
