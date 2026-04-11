@@ -100,6 +100,7 @@
       width: 50px;
       z-index: 10;
       cursor: pointer;
+      transition: filter 0.3s;
     }
 
     /* OVERLAY ARTE */
@@ -108,17 +109,43 @@
       position: fixed;
       top: 0; left: 0;
       width: 100%; height: 100%;
-      background: rgba(0,0,0,0.9);
+      background: rgba(0,0,0,0);
       z-index: 600;
       justify-content: center;
       align-items: center;
+      transition: background 0.4s ease;
     }
     #overlay-arte.active { display: flex; }
-    #overlay-arte img {
+
+    #arte-img-wrapper {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transform: scale(0) translate(-50vw, -50vh);
+      transform-origin: top left;
+      opacity: 0;
+      transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.4s ease;
+    }
+
+    #arte-img-wrapper.abrir {
+      transform: scale(1) translate(0, 0);
+      opacity: 1;
+    }
+
+    #arte-img-wrapper.fechar {
+      transform: scale(0) translate(-50vw, -50vh);
+      opacity: 0;
+    }
+
+    #arte-img-wrapper img {
       width: 100%;
       height: 100%;
       object-fit: contain;
     }
+
     #btn-fechar-arte {
       position: fixed;
       top: 16px; left: 12px;
@@ -131,7 +158,10 @@
       font-size: 0.8rem;
       font-family: Georgia, serif;
       cursor: pointer;
+      opacity: 0;
+      transition: opacity 0.4s ease 0.4s;
     }
+    #btn-fechar-arte.visible { opacity: 1; }
     #logo-castelobruxo {
       position: fixed;
       top: 28%;
@@ -750,7 +780,9 @@
   <!-- OVERLAY ARTE -->
   <div id="overlay-arte">
     <button id="btn-fechar-arte" onclick="fecharArte()">Voltar</button>
-    <img src="imagens/acastelobruxo.jpeg" alt="Arte CasteloBruxo">
+    <div id="arte-img-wrapper">
+      <img src="imagens/acastelobruxo.jpeg" alt="Arte CasteloBruxo">
+    </div>
   </div>
 
   <img id="logo-hp" src="imagens/hplogo.png" alt="HP Logo">
@@ -1330,11 +1362,31 @@
     })();
 
     window.abrirArte = function() {
-      document.getElementById("overlay-arte").classList.add("active");
+      const overlay = document.getElementById("overlay-arte");
+      const wrapper = document.getElementById("arte-img-wrapper");
+      const btn = document.getElementById("btn-fechar-arte");
+      overlay.style.display = "flex";
+      overlay.style.background = "rgba(0,0,0,0)";
+      wrapper.classList.remove("fechar", "abrir");
+      setTimeout(() => {
+        overlay.style.background = "rgba(0,0,0,0.9)";
+        wrapper.classList.add("abrir");
+        btn.classList.add("visible");
+      }, 30);
     }
 
     window.fecharArte = function() {
-      document.getElementById("overlay-arte").classList.remove("active");
+      const overlay = document.getElementById("overlay-arte");
+      const wrapper = document.getElementById("arte-img-wrapper");
+      const btn = document.getElementById("btn-fechar-arte");
+      btn.classList.remove("visible");
+      overlay.style.background = "rgba(0,0,0,0)";
+      wrapper.classList.remove("abrir");
+      wrapper.classList.add("fechar");
+      setTimeout(() => {
+        overlay.style.display = "none";
+        wrapper.classList.remove("fechar");
+      }, 700);
     }
 
     window.abrirRegras = function() {
