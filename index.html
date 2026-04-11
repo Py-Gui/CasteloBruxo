@@ -9,7 +9,22 @@
   <script src="https://w.soundcloud.com/player/api.js"></script>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    html, body { width: 100%; height: 100%; overflow: hidden; background: #000; }
+    html, body { width: 100%; height: 100%; overflow-y: auto; background: #000; }
+
+    #page-wrapper {
+      min-height: 200vh;
+    }
+
+    #dobra {
+      position: relative;
+      width: 100%;
+      margin-top: 100vh;
+    }
+
+    #dobra img {
+      width: 100%;
+      display: block;
+    }
 
     /* TELA DE CARREGAMENTO */
     #loading-screen {
@@ -1243,6 +1258,11 @@
       document.removeEventListener("touchstart", iniciarAudio);
     }, { once: true });
   </script>
+  <div id="page-wrapper">
+    <div id="dobra">
+      <img src="imagens/Artecastelobruxo.jpg" alt="Arte CasteloBruxo">
+    </div>
+  </div>
 
 </body>
 </html>
