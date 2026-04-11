@@ -124,19 +124,19 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      transform: scale(0) translate(-50vw, -50vh);
-      transform-origin: top left;
+      transform: scale(0);
+      transform-origin: center center;
       opacity: 0;
-      transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.4s ease;
+      transition: transform 0.5s ease, opacity 0.5s ease;
     }
 
     #arte-img-wrapper.abrir {
-      transform: scale(1) translate(0, 0);
+      transform: scale(1);
       opacity: 1;
     }
 
     #arte-img-wrapper.fechar {
-      transform: scale(0) translate(-50vw, -50vh);
+      transform: scale(0);
       opacity: 0;
     }
 
