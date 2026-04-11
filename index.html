@@ -73,7 +73,26 @@
     }
     #icons-container img { width: 70px; height: 70px; object-fit: contain; cursor: pointer; }
 
-    /* BRASÃO CASTELOBRUXO */
+    /* FOGOS DE ARTIFÍCIO */
+    #fogos-container {
+      position: fixed;
+      top: 6px;
+      left: 8px;
+      width: 50px;
+      height: 50px;
+      z-index: 9;
+      pointer-events: none;
+      overflow: visible;
+    }
+
+    .particula {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      opacity: 0;
+      pointer-events: none;
+    }
     #brasao-cb {
       position: fixed;
       top: 6px;
@@ -724,6 +743,8 @@
     <div class="loading-subtexto">🏰 CasteloBruxo 🏰</div>
   </div>
 
+  <canvas id="fogos-canvas" style="position:fixed;top:0;left:0;width:100px;height:100px;z-index:9;pointer-events:none;overflow:visible;"></canvas>
+
   <img id="brasao-cb" src="imagens/brasaocastelobruxo.png" alt="CasteloBruxo" onclick="abrirArte()">
 
   <!-- OVERLAY ARTE -->
@@ -1249,6 +1270,64 @@
     // CARROSSEL DE REGRAS
     let pergaminhoAtual = 0;
     const totalPergaminhos = 7;
+
+    // FOGOS DE ARTIFÍCIO
+    (function() {
+      const canvas = document.getElementById("fogos-canvas");
+      const ctx = canvas.getContext("2d");
+      const CX = 33, CY = 33; // centro do brasão
+      const cores = ["#ffd700", "#00cc44", "#ffec6e", "#00ff66", "#c9a84c", "#33ff77"];
+      let particulas = [];
+
+      canvas.width = 100;
+      canvas.height = 100;
+
+      function criarFogos() {
+        for (let i = 0; i < 30; i++) {
+          const angulo = (Math.PI * 2 / 30) * i;
+          const velocidade = 1.5 + Math.random() * 2;
+          particulas.push({
+            x: CX, y: CY,
+            vx: Math.cos(angulo) * velocidade,
+            vy: Math.sin(angulo) * velocidade,
+            alpha: 1,
+            cor: cores[Math.floor(Math.random() * cores.length)],
+            tamanho: 2 + Math.random() * 2
+          });
+        }
+      }
+
+      function animarFogos() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        particulas = particulas.filter(p => p.alpha > 0.05);
+        particulas.forEach(p => {
+          p.x += p.vx;
+          p.y += p.vy;
+          p.vx *= 0.95;
+          p.vy *= 0.95;
+          p.alpha -= 0.025;
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.tamanho, 0, Math.PI * 2);
+          ctx.fillStyle = p.cor;
+          ctx.globalAlpha = p.alpha;
+          ctx.shadowBlur = 8;
+          ctx.shadowColor = p.cor;
+          ctx.fill();
+          ctx.globalAlpha = 1;
+        });
+        if (particulas.length > 0) requestAnimationFrame(animarFogos);
+        else ctx.clearRect(0, 0, canvas.width, canvas.height);
+      }
+
+      function dispararFogos() {
+        criarFogos();
+        animarFogos();
+      }
+
+      // Dispara a cada 10 segundos
+      setTimeout(dispararFogos, 3000);
+      setInterval(dispararFogos, 10000);
+    })();
 
     window.abrirArte = function() {
       document.getElementById("overlay-arte").classList.add("active");
