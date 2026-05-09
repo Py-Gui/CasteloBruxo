@@ -375,6 +375,22 @@
     #msg-erro-biblioteca { color: #ff6b6b; font-size: 0.82rem; margin-bottom: 10px; display: none; }
     #msg-erro-biblioteca.active { display: block; }
 
+    /* MANUTENÇÃO */
+    #overlay-manutencao {
+      display: none; position: fixed; top: 0; left: 0;
+      width: 100%; height: 100%; background: rgba(0,0,0,0.75);
+      z-index: 500; justify-content: center; align-items: center;
+    }
+    #overlay-manutencao.active { display: flex; }
+    #popup-manutencao {
+      background: #1a1a2e; border: 2px solid #c9a84c; border-radius: 12px;
+      padding: 36px 28px; width: 80vw; max-width: 320px; text-align: center;
+      box-shadow: 0 0 30px rgba(201,168,76,0.3);
+    }
+    #popup-manutencao h2 { color: #c9a84c; font-family: Georgia, serif; font-size: 1.3rem; margin-bottom: 12px; letter-spacing: 1px; }
+    #popup-manutencao p { color: #aaa; font-size: 0.85rem; font-family: Georgia, serif; margin-bottom: 20px; }
+    #popup-manutencao button { background: none; border: 1px solid #c9a84c; color: #c9a84c; border-radius: 6px; padding: 8px 20px; font-size: 0.9rem; cursor: pointer; font-family: Georgia, serif; }
+
     /* EM BREVE */
     #overlay-embreve {
       display: none; position: fixed; top: 0; left: 0;
@@ -825,7 +841,7 @@
   <img id="luz-doacoes" src="imagens/luz.png" alt="Luz">
 
   <div id="icons-container">
-    <img id="icone-jornal" src="imagens/íconejornal.png" alt="Jornal" onclick="abrirPopup()">
+    <img id="icone-jornal" src="imagens/íconejornal.png" alt="Jornal" onclick="mostrarManutencao()">
     <img id="icone-livros" src="imagens/inconelivros.png" alt="Livros" onclick="abrirPopupBiblioteca()">
     <img id="icone-filmes" src="imagens/iconefilmes.png" alt="Filmes" onclick="mostrarEmBreve()" style="margin-top:-2px;">
     <img id="icone-regras" src="imagens/iconeregras.png" alt="Regras" onclick="abrirRegras()">
@@ -986,6 +1002,15 @@
   </div>
 
   <!-- OVERLAY EM BREVE -->
+  <!-- OVERLAY MANUTENÇÃO -->
+  <div id="overlay-manutencao">
+    <div id="popup-manutencao">
+      <h2>🔧 Em Manutenção</h2>
+      <p>O Ministério da Magia está temporariamente fechado para manutenção. Volte em breve!</p>
+      <button onclick="fecharManutencao()">Fechar</button>
+    </div>
+  </div>
+
   <div id="overlay-embreve">
     <div id="popup-embreve">
       <h2>🎬 Em Breve</h2>
@@ -1184,6 +1209,14 @@
       document.getElementById("janela-ministerio").classList.remove("active");
       scMinisterio.pause();
       scInicial.play();
+    }
+
+    window.mostrarManutencao = function() {
+      document.getElementById("overlay-manutencao").classList.add("active");
+    }
+
+    window.fecharManutencao = function() {
+      document.getElementById("overlay-manutencao").classList.remove("active");
     }
 
     window.mostrarEmBreve = function() {
